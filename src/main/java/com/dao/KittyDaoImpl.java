@@ -27,9 +27,14 @@ public class KittyDaoImpl implements KittyDao{
 	public List<HomelessKitty> getListKitty() {
 		return sessionFactory.getCurrentSession().createQuery("from HomelessKitty").list();
 	}
-
+	@Transactional
 	public void delete(long id) {
 		sessionFactory.getCurrentSession().createQuery("delete from HomelessKitty u where u.id=:id").setParameter("id",id).executeUpdate();
+	}
+	@Transactional
+	public HomelessKitty getKitty(long id) {
+		
+		return (HomelessKitty) sessionFactory.getCurrentSession().get(HomelessKitty.class, id);
 	}
 	
 }
