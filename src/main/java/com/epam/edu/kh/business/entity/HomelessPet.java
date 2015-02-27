@@ -33,14 +33,14 @@ public class HomelessPet {
 		this.userName = userName;
 	}
 	
-	@Column(name="sourceUrl")
-	private String sourceUrl;
+	@Column(name="source")
+	private String source;
 	
-	public String getSourceUrl(){
-		return this.sourceUrl;
+	public String getSource(){
+		return this.source;
 	}
-	public void setSourceUrl(String sourceUrl){
-		this.sourceUrl = sourceUrl;
+	public void setSource(String source){
+		this.source = source;
 	}
 	
 	@Column(name="userProfileUrl")
@@ -85,11 +85,11 @@ public class HomelessPet {
 	public void setRecordPhotoUrl(String recordPhotoUrl){
 		this.recordPhotoUrl = recordPhotoUrl;
 	}
-	public HomelessPet(long id,String userName,String sourceUrl,String userProfileUrl,String userPhotoUrl,String message,String recordPhotoUrl){
+	public HomelessPet(long id,String userName,String source,String userProfileUrl,String userPhotoUrl,String message,String recordPhotoUrl){
 		
 		this.id = id;
 		this.userName = userName;
-		this.sourceUrl = sourceUrl;
+		this.source = source;
 		this.userProfileUrl = userProfileUrl;
 		this.userPhotoUrl = userPhotoUrl;
 		this.message = message;

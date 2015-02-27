@@ -71,16 +71,16 @@ public class IndexController{
 		return pet.getListPets();
 	}
 	
-	/*@RequestMapping(value="/records/tag",method = RequestMethod.GET)
+	@RequestMapping(value="/records/tag",method = RequestMethod.GET)
 	@ResponseBody   
 	public List<HomelessPet> getRecordsTags(){   
 	  
 		return null; 
 		
 	}
-	@RequestMapping(value="/records/toptags",method = RequestMethod.POST)
+	@RequestMapping(value="/records/toptags",method = RequestMethod.GET)
 	@ResponseBody   
 	public List<HomelessPet> getTagsTop(){    
 		return null; 
-	}*/
+	} 
 } 
