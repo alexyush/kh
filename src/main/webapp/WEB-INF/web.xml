@@ -20,8 +20,8 @@
 	   <param-name>contextConfigLocation</param-name>
 	  
 	   <param-value>
-	   /WEB-INF/kitty-servlet.xml 
-	   /WEB-INF/application-servlet.xml 
+	   /WEB-INF/kh-servlet.xml 
+	   /WEB-INF/app.xml 
 	   </param-value>
 	   
 	</context-param>
@@ -31,13 +31,13 @@
 	</listener>
 
   	<servlet>
-	   <servlet-name>kitty</servlet-name>
+	   <servlet-name>kh</servlet-name>
 	   <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 	   <load-on-startup>1</load-on-startup>
 	</servlet> 
 	
 	<servlet-mapping>
-	   <servlet-name>kitty</servlet-name>
+	   <servlet-name>kh</servlet-name>
 	   <url-pattern>/</url-pattern>
 	</servlet-mapping>
     

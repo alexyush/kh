@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com</groupId>
-  <artifactId>kitty</artifactId>
+  <groupId>com.epam.edu</groupId>
+  <artifactId>kh</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>kitty Maven Webapp</name>
@@ -16,6 +16,15 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    
+    
+    <dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+		<version>2.5.1</version>
+	</dependency>
+    
+    
     
     <dependency>
 		<groupId>javax.inject</groupId>
@@ -185,7 +194,7 @@
        
   </dependencies>
   <build>
-    <finalName>kitty</finalName>
+    <finalName>kh</finalName>
     
 	<plugins>
 		<plugin>
