@@ -28,8 +28,9 @@
 		</property>
 	</bean> 
 	
-	<bean id="PetDao" class="com.epam.edu.kh.business.dao.PetDaoImpl"></bean> 
-	
+	<bean id="RecordDao" class="com.epam.edu.kh.business.dao.RecordDaoImpl"></bean> 
+	<bean id="JsonScanner" class="com.epam.edu.kh.business.service.JsonScanner"></bean> 
+	<bean id="RecordService" class="com.epam.edu.kh.business.service.RecordServiceImpl"></bean> 
  	
 	 
 </beans>

@@ -5,10 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 @Entity
-@Table(name="HomelessPet")
-public class HomelessPet {
+@Table(name="Record")
+public class Record {
 
 	
 	@Id @GeneratedValue
@@ -52,8 +51,7 @@ public class HomelessPet {
 	public void setUserProfileUrl(String userProfileUrl){
 		this.userProfileUrl = userProfileUrl;
 	}
-	
-	
+
 	@Column(name="userPhotoUrl")
 	private String userPhotoUrl;
 	
@@ -64,8 +62,7 @@ public class HomelessPet {
 		this.userPhotoUrl = userPhotoUrl;
 	}
 	
-	
-	@Column(name="message")
+	@Column(name="message",columnDefinition = "NVARCHAR(254)")
 	private String message;
 	
 	public String getMessage(){
@@ -85,7 +82,7 @@ public class HomelessPet {
 	public void setRecordPhotoUrl(String recordPhotoUrl){
 		this.recordPhotoUrl = recordPhotoUrl;
 	}
-	public HomelessPet(long id,String userName,String source,String userProfileUrl,String userPhotoUrl,String message,String recordPhotoUrl){
+	public Record(long id,String userName,String source,String userProfileUrl,String userPhotoUrl,String message,String recordPhotoUrl){
 		
 		this.id = id;
 		this.userName = userName;
@@ -95,7 +92,7 @@ public class HomelessPet {
 		this.message = message;
 		this.recordPhotoUrl = recordPhotoUrl;
 	}
-	public HomelessPet(){ 
+	public Record(){ 
 	}
 		
 }

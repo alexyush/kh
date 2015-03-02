@@ -43,7 +43,7 @@ angular.module('testApp')
 		  	});
   		} else {
 	  		dataService.getAll(function(data) {
-		  		$scope.posts = data.model;
+		  		$scope.posts = data;
 		  	});
 	  	}
   	}

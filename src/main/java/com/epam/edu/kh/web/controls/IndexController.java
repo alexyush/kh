@@ -1,22 +1,38 @@
 package com.epam.edu.kh.web.controls; 
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired; 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller; 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping; 
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody; 
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.epam.edu.kh.business.dao.PetDao;
-import com.epam.edu.kh.business.entity.HomelessPet;
+import com.epam.edu.kh.business.dao.RecordDao;
+import com.epam.edu.kh.business.entity.Record;
+import com.epam.edu.kh.business.service.JsonScanner;
+import com.epam.edu.kh.business.service.RecordService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 
 @Controller 
 public class IndexController{ 
 
 	@Autowired
-	private PetDao pet;
+	private RecordDao recordDao;
+	
+	@Autowired
+	private RecordService recordService;
+	
+
+	@Autowired
+	private JsonScanner jsonScanner;
+	
 	
 	@RequestMapping(value={"/","/index"})
 	   public ModelAndView viewIndex(ModelAndView model){   
@@ -24,63 +40,50 @@ public class IndexController{
 	    return model;
 	   }
 	
-	@RequestMapping(value="/obj")
-	   public ModelAndView viewOb(ModelAndView model){   
-		model.setViewName("/kitty");
-	    return model;
-	   }
-
-	
 	@RequestMapping(value="/add")
-	   public ModelAndView addKitties(ModelAndView model){   
+	   public ModelAndView addKitties(ModelAndView model) throws JsonProcessingException, IOException{   
 		model.setViewName("/index");
 		
-		
-		pet.save(new HomelessPet(1,
-				"Alex",
-				"http://vk.com/altgraph?z=photo41632690_355234691%2Fwall-34487040_1042",
-				"http://vk.com/altgraph",
-				"http://cs622926.vk.me/v622926279/1910a/jK_SO7tldlo.jpg",
-				"asdasdasd",
-				"http://vk.com/altgraph?z=photo41632690_355234691%2Fwall-34487040_1042"
-				)
-		); 
-		pet.save(new HomelessPet(2,
-				"Alex",
-				"http://vk.com/altgraph?z=photo41632690_355234691%2Fwall-34487040_1042",
-				"http://vk.com/altgraph",
-				"http://cs622926.vk.me/v622926279/1910a/jK_SO7tldlo.jpg",
-				"asdasdasd",
-				"http://vk.com/altgraph?z=photo41632690_355234691%2Fwall-34487040_1042"
-				)
-		);
-	    return model;
-	   }
+		//recordService.insertRecord("http://vk.com/id28877180?w=wall28877180_3148"); 
+		//recordService.insertRecord("http://vk.com/wall-37578612_9304");
+		//recordService.insertRecord("http://vk.com/leprum?w=wall-30022666_127503");
+		//recordService.insertRecord("http://vk.com/arsenal_officialnews?w=wall-23473641_4290266");
+		//recordService.insertRecord("http://vk.com/by_duran?w=wall-25336774_6838");
+		jsonScanner.parseJsonForTesting("http://vk.com/wall-37578612_9304");
+		jsonScanner.parseJsonForTesting("http://vk.com/arsenal_officialnews?w=wall-23473641_4290266");
+		return model;
+	
+	}
 			
 	@RequestMapping(value="/records/top",method = RequestMethod.GET)
 	@ResponseBody   
-	public List<HomelessPet> getRecordsTop(){   
-	  
-		
-		for(HomelessPet dso:pet.getListPets())
-		{
-			System.out.println(dso.getId());
-			System.out.println(dso.getMessage());
-			System.out.println(dso.getRecordPhotoUrl());
-		}
-		return pet.getListPets();
+	public List<Record> getRecordsTop(){   
+		return recordDao.getListPets();
 	}
-	
 	@RequestMapping(value="/records/tag",method = RequestMethod.GET)
 	@ResponseBody   
-	public List<HomelessPet> getRecordsTags(){   
+	public List<Record> getRecordsTags(){   
 	  
 		return null; 
 		
 	}
 	@RequestMapping(value="/records/toptags",method = RequestMethod.GET)
 	@ResponseBody   
-	public List<HomelessPet> getTagsTop(){    
+	public List<Record> getTagsTop(){    
 		return null; 
 	} 
+	
+	@RequestMapping(value="/records/vk",method = RequestMethod.GET)
+	@ResponseBody   
+	public List<Record> putRecordsIn(){   
+
+		return null;
+		
+		
+	}
+	
+	
+	
+	
+	
 } 

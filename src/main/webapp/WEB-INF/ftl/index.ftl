@@ -43,6 +43,7 @@
               <li class="active"><a href="#/">live</a></li>
               <li><a ng-href="#/about">About</a></li>
               <li><a ng-href="#/contact">Contact</a></li>
+              <li><a ng-href="#/add">Add</li>
             </ul>
           </div>
         </div>
