@@ -32,14 +32,14 @@ public class Record {
 		this.userName = userName;
 	}
 	
-	@Column(name="source")
-	private String source;
+	@Column(name="sourceUrl")
+	private String sourceUrl;
 	
-	public String getSource(){
-		return this.source;
+	public String getSourceUrl(){
+		return this.sourceUrl;
 	}
-	public void setSource(String source){
-		this.source = source;
+	public void setSourceUrl(String sourceUrl){
+		this.sourceUrl = sourceUrl;
 	}
 	
 	@Column(name="userProfileUrl")
@@ -62,7 +62,7 @@ public class Record {
 		this.userPhotoUrl = userPhotoUrl;
 	}
 	
-	@Column(name="message",columnDefinition = "NVARCHAR(254)")
+	@Column(name="message")
 	private String message;
 	
 	public String getMessage(){
@@ -82,15 +82,51 @@ public class Record {
 	public void setRecordPhotoUrl(String recordPhotoUrl){
 		this.recordPhotoUrl = recordPhotoUrl;
 	}
-	public Record(long id,String userName,String source,String userProfileUrl,String userPhotoUrl,String message,String recordPhotoUrl){
+	public Record(long id,String userName,String sourceUrl,String userProfileUrl,String userPhotoUrl,String message,String recordPhotoUrl){
 		
 		this.id = id;
 		this.userName = userName;
-		this.source = source;
+		this.sourceUrl = sourceUrl;
 		this.userProfileUrl = userProfileUrl;
 		this.userPhotoUrl = userPhotoUrl;
 		this.message = message;
 		this.recordPhotoUrl = recordPhotoUrl;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((message == null) ? 0 : message.hashCode());
+		result = prime * result
+				+ ((recordPhotoUrl == null) ? 0 : recordPhotoUrl.hashCode());
+		result = prime * result
+				+ ((sourceUrl == null) ? 0 : sourceUrl.hashCode());
+		result = prime * result
+				+ ((userName == null) ? 0 : userName.hashCode());
+		result = prime * result
+				+ ((userPhotoUrl == null) ? 0 : userPhotoUrl.hashCode());
+		result = prime * result
+				+ ((userProfileUrl == null) ? 0 : userProfileUrl.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Record other = (Record) obj;
+		
+		if (sourceUrl == null) {
+			if (other.sourceUrl != null)
+				return false;
+		} else if (!sourceUrl.equals(other.sourceUrl))
+			return false;
+		
+		return true;
 	}
 	public Record(){ 
 	}

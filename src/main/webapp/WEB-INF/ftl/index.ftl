@@ -60,6 +60,9 @@
     </div>
 
     <div class="container">
+    <#if exception?exists>
+    	${exception}
+    </#if>
       <div id="content" ng-view=""></div>
     </div>
 

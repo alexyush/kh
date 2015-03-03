@@ -3,7 +3,9 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans     
+	xmlns:task="http://www.springframework.org/schema/task"
+	
+	xsi:schemaLocation="http://www.springframework.org/schema/beans    
    http://www.springframework.org/schema/beans/spring-beans.xsd 
    http://www.springframework.org/schema/context 
    http://www.springframework.org/schema/context/spring-context.xsd
@@ -12,11 +14,14 @@
    http://www.springframework.org/schema/tx
    http://www.springframework.org/schema/tx/spring-tx.xsd
    http://www.springframework.org/schema/util 
-   http://www.springframework.org/schema/util/spring-util.xsd">
- 	
-   
-   
-   <!--<context:component-scan base-package=" "/> -->
+   http://www.springframework.org/schema/util/spring-util.xsd
+   http://www.springframework.org/schema/task 
+   http://www.springframework.org/schema/task/spring-task.xsd">
+ 	  
+ 	  
+ 	  
+  
+  
    
    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -32,5 +37,38 @@
 	<bean id="JsonScanner" class="com.epam.edu.kh.business.service.JsonScanner"></bean> 
 	<bean id="RecordService" class="com.epam.edu.kh.business.service.RecordServiceImpl"></bean> 
  	
-	 
+ 	
+   	<task:annotation-driven executor="executor" scheduler="scheduler"/>
+	<task:executor id="executor" pool-size="5"/>
+	<task:scheduler id="scheduler" pool-size="10"/>
+ 	
+ 	
+	<!--
+	<bean id="runScheduler" class="com.epam.edu.kh.business.service.ResourceChekingExecutor" />
+	  <task:scheduled-tasks>
+	    
+		<task:scheduled ref="runScheduler" method="run" fixed-delay="5000" /> 
+	    
+		<task:scheduled ref="runScheduler" method="run" cron="*/5 * * * * *" />
+	   </task:scheduled-tasks>
+ 
+	</beans>
+	-->
+		
+ 	<!-- 
+ 		<task:annotation-driven executor="executor" scheduler="scheduler"/>
+		<task:executor id="executor" pool-size="5"/>
+		<task:scheduler id="scheduler" pool-size="10"/>
+	-->
+ 	
+	 <!--  <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+	    <property name="corePoolSize" value="5" />
+	    <property name="maxPoolSize" value="10" />
+	    <property name="queueCapacity" value="25" />
+	</bean>
+
+	<bean id="ResourceChekingExecutor" class="com.epam.edu.kh.business.service.ResourceChekingExecutor">
+	    <constructor-arg ref="taskExecutor" />
+	</bean> 
+	 -->
 </beans>
