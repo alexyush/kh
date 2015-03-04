@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.epam.edu.kh.business.dao.RecordDao;
 import com.epam.edu.kh.business.entity.Record;
-import com.epam.edu.kh.business.service.JsonScanner;
+import com.epam.edu.kh.business.scanner.JsonScanner;
 import com.epam.edu.kh.business.service.RecordService;
 
 @Controller
@@ -26,14 +26,14 @@ public class IndexController {
 	@Autowired
 	private JsonScanner jsonScanner;
 
-	/*@ExceptionHandler(Exception.class)
+	@ExceptionHandler(Exception.class)
 	public ModelAndView handleError(Exception ex) {
 		
 	   ModelAndView mod = new ModelAndView();  
 	   mod.addObject("message",ex.getMessage());
 	   mod.setViewName("/error");
 	   return mod;
-	}*/
+	}
 	
 	@RequestMapping(value = { "/", "/index" })
 	public ModelAndView viewIndex(ModelAndView model) {
@@ -45,11 +45,10 @@ public class IndexController {
 	public ModelAndView addKitties(ModelAndView model) throws Exception {
 		
 		model.setViewName("/index");
-		//recordService.insertRecord("http://vk.com/id28877180?w=wall28877180_3148"); 
-		//recordService.insertRecord("http://vk.com/arsenal_officialnews?w=wall-23473641_4290266");
-		//recordService.insertRecord("http://vk.com/by_duran?w=wall-25336774_6838")  
-		jsonScanner.parseJsonForTesting("http://vk.com/arsenal_officialnews?w=wall-23473641_4291773");
-		jsonScanner.parseJsonForTesting("http://vk.com/wall-37578612_9304");
+		recordService.insertRecord("http://vk.com/wall-24502885_168300");
+		recordService.insertRecord("http://vk.com/wall-24502885_168299");
+		recordService.insertRecord("http://vk.com/wall-24502885_168297");
+		recordService.insertRecord("http://vk.com/wall-24502885_168295");
 		return model;
 
 	}

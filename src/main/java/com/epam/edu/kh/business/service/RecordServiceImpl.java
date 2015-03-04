@@ -1,10 +1,13 @@
 package com.epam.edu.kh.business.service;
+import java.io.IOException;
 import java.util.Iterator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import com.epam.edu.kh.business.dao.RecordDao;
 import com.epam.edu.kh.business.entity.Record;
+import com.epam.edu.kh.business.scanner.JsonScanner;
 
 public class RecordServiceImpl implements RecordService {
 
@@ -16,7 +19,7 @@ public class RecordServiceImpl implements RecordService {
 	@Autowired
 	private RecordDao recordDao;
 	
-	public void insertRecord(String linkToResource) throws Exception {
+	public void insertRecord(String linkToResource) throws IllegalArgumentException, IOException{
 	
 		Record record = jsonScanner.parseJsonFromVkServer(linkToResource);
 		record.setMessage(cutString(160,record.getMessage()));

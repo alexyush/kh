@@ -5,85 +5,94 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 @Entity
-@Table(name="Record")
+@Table(name = "Record")
 public class Record {
 
-	
-	@Id @GeneratedValue
-	@Column(name="id")
+	@Id
+	@GeneratedValue
+	@Column(name = "id")
 	private long id;
-	
-	public long getId()
-	{
+
+	public long getId() {
 		return this.id;
 	}
-	public void setId(long id){
+
+	public void setId(long id) {
 		this.id = id;
 	}
-	
-	@Column(name="userName")
+
+	@Column(name = "userName")
 	private String userName;
-	
-	public String getUserName(){
+
+	public String getUserName() {
 		return this.userName;
 	}
-	public void setUserName(String userName){
+
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
-	@Column(name="sourceUrl")
+
+	@Column(name = "sourceUrl")
 	private String sourceUrl;
-	
-	public String getSourceUrl(){
+
+	public String getSourceUrl() {
 		return this.sourceUrl;
 	}
-	public void setSourceUrl(String sourceUrl){
+
+	public void setSourceUrl(String sourceUrl) {
 		this.sourceUrl = sourceUrl;
 	}
-	
-	@Column(name="userProfileUrl")
+
+	@Column(name = "userProfileUrl")
 	private String userProfileUrl;
-	
-	public String getUserProfileUrl(){
+
+	public String getUserProfileUrl() {
 		return this.userProfileUrl;
 	}
-	public void setUserProfileUrl(String userProfileUrl){
+
+	public void setUserProfileUrl(String userProfileUrl) {
 		this.userProfileUrl = userProfileUrl;
 	}
 
-	@Column(name="userPhotoUrl")
+	@Column(name = "userPhotoUrl")
 	private String userPhotoUrl;
-	
-	public String getUserPhotoUrl(){
+
+	public String getUserPhotoUrl() {
 		return this.userPhotoUrl;
 	}
-	public void setUserPhotoUrl(String userPhotoUrl){
+
+	public void setUserPhotoUrl(String userPhotoUrl) {
 		this.userPhotoUrl = userPhotoUrl;
 	}
-	
-	@Column(name="message")
+
+	@Column(name = "message")
 	private String message;
-	
-	public String getMessage(){
+
+	public String getMessage() {
 		return this.message;
 	}
-	public void setMessage(String message){
+
+	public void setMessage(String message) {
 		this.message = message;
 	}
-	
-	
-	@Column(name="recordPhotoUrl")
+
+	@Column(name = "recordPhotoUrl")
 	private String recordPhotoUrl;
-	
-	public String getRecordPhotoUrl(){
+
+	public String getRecordPhotoUrl() {
 		return this.recordPhotoUrl;
 	}
-	public void setRecordPhotoUrl(String recordPhotoUrl){
+
+	public void setRecordPhotoUrl(String recordPhotoUrl) {
 		this.recordPhotoUrl = recordPhotoUrl;
 	}
-	public Record(long id,String userName,String sourceUrl,String userProfileUrl,String userPhotoUrl,String message,String recordPhotoUrl){
-		
+
+	public Record(long id, String userName, String sourceUrl,
+			String userProfileUrl, String userPhotoUrl, String message,
+			String recordPhotoUrl) {
+
 		this.id = id;
 		this.userName = userName;
 		this.sourceUrl = sourceUrl;
@@ -92,6 +101,7 @@ public class Record {
 		this.message = message;
 		this.recordPhotoUrl = recordPhotoUrl;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -110,6 +120,7 @@ public class Record {
 				+ ((userProfileUrl == null) ? 0 : userProfileUrl.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -119,16 +130,17 @@ public class Record {
 		if (getClass() != obj.getClass())
 			return false;
 		Record other = (Record) obj;
-		
+
 		if (sourceUrl == null) {
 			if (other.sourceUrl != null)
 				return false;
 		} else if (!sourceUrl.equals(other.sourceUrl))
 			return false;
-		
+
 		return true;
 	}
-	public Record(){ 
+
+	public Record() {
 	}
-		
+
 }

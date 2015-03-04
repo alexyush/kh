@@ -104,6 +104,7 @@ body {
 
 .tile .content {
   padding: 5px 0;
+  min-height:150px;
 }
 
 .tile .content img.usr {
