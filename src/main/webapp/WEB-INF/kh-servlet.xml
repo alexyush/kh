@@ -14,7 +14,7 @@
    http://www.springframework.org/schema/util 
    http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<context:component-scan base-package="com.epam.edu.kh.web.controls"/>
+	<context:component-scan base-package="com.epam.edu.kh"/>
 	<mvc:annotation-driven />
 	<tx:annotation-driven />
 	
