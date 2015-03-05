@@ -3,8 +3,9 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:task="http://www.springframework.org/schema/task"
-	
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:neo4j="http://www.springframework.org/schema/data/neo4j"
+
+
 	xsi:schemaLocation="http://www.springframework.org/schema/beans    
    http://www.springframework.org/schema/beans/spring-beans.xsd 
    http://www.springframework.org/schema/context 
@@ -16,55 +17,37 @@
    http://www.springframework.org/schema/util 
    http://www.springframework.org/schema/util/spring-util.xsd
    http://www.springframework.org/schema/task 
-   http://www.springframework.org/schema/task/spring-task.xsd">
- 	  
+   http://www.springframework.org/schema/task/spring-task.xsd
+   http://www.springframework.org/schema/data/neo4j
+   http://www.springframework.org/schema/data/neo4j/spring-neo4j.xsd">
 
-   <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+
+	<neo4j:repositories base-package="com.epam.edu.kh.business.neo4j.repository"></neo4j:repositories>
+	
+	<neo4j:config storeDirectory="data/temp.db"
+		base-package="com.epam.edu.kh.business.neo4j.entity" />
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-   
- 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"> 
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
 		<property name="configLocation">
 			<value>classpath:hibernate.cfg.xml</value>
 		</property>
-	</bean> 
-	
-	<bean id="RecordDao" class="com.epam.edu.kh.business.dao.RecordDaoImpl"></bean> 
-	<bean id="JsonScanner" class="com.epam.edu.kh.business.scanner.JsonScanner"></bean> 
-	<bean id="RecordService" class="com.epam.edu.kh.business.service.RecordServiceImpl"></bean> 
- 	
- 	
-   	<task:annotation-driven executor="executor" scheduler="scheduler"/>
-	<task:executor id="executor" pool-size="5"/>
-	<task:scheduler id="scheduler" pool-size="10"/>
- 	
- 	
-	<!--
-	<bean id="runScheduler" class="com.epam.edu.kh.business.service.ResourceChekingExecutor" />
-	  <task:scheduled-tasks>
-	    
-		<task:scheduled ref="runScheduler" method="run" fixed-delay="5000" /> 
-	    
-		<task:scheduled ref="runScheduler" method="run" cron="*/5 * * * * *" />
-	   </task:scheduled-tasks>
- 
-	</beans>
-	-->
-		
- 	<!-- 
- 		<task:annotation-driven executor="executor" scheduler="scheduler"/>
-		<task:executor id="executor" pool-size="5"/>
-		<task:scheduler id="scheduler" pool-size="10"/>
-	-->
- 	
-	 <!--  <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-	    <property name="corePoolSize" value="5" />
-	    <property name="maxPoolSize" value="10" />
-	    <property name="queueCapacity" value="25" />
 	</bean>
 
-	<bean id="ResourceChekingExecutor" class="com.epam.edu.kh.business.service.ResourceChekingExecutor">
-	    <constructor-arg ref="taskExecutor" />
-	</bean> 
-	 -->
+	<bean id="RecordDao" class="com.epam.edu.kh.business.dao.RecordDaoImpl"></bean>
+	<bean id="JsonScannerOfResponseVK"
+		class="com.epam.edu.kh.business.scanner.JsonScannerOfResponseVK"></bean>
+	<bean id="RecordService" class="com.epam.edu.kh.business.service.RecordServiceImpl"></bean>
+
+
+	<task:annotation-driven executor="executor"
+		scheduler="scheduler" />
+	<task:executor id="executor" pool-size="5" />
+	<task:scheduler id="scheduler" pool-size="10" />
+
 </beans>

@@ -10,137 +10,143 @@ import javax.persistence.Table;
 @Table(name = "Record")
 public class Record {
 
-	@Id
-	@GeneratedValue
-	@Column(name = "id")
-	private long id;
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private long id;
 
-	public long getId() {
-		return this.id;
-	}
+    @Column(name = "userName")
+    private String userName;
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    @Column(name = "sourceUrl")
+    private String sourceUrl;
 
-	@Column(name = "userName")
-	private String userName;
+    @Column(name = "userProfileUrl")
+    private String userProfileUrl;
 
-	public String getUserName() {
-		return this.userName;
-	}
+    @Column(name = "userPhotoUrl")
+    private String userPhotoUrl;
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    @Column(name = "message")
+    private String message;
 
-	@Column(name = "sourceUrl")
-	private String sourceUrl;
+    @Column(name = "recordPhotoUrl")
+    private String recordPhotoUrl;
 
-	public String getSourceUrl() {
-		return this.sourceUrl;
-	}
+    public final long getId() {
+        return this.id;
+    }
 
-	public void setSourceUrl(String sourceUrl) {
-		this.sourceUrl = sourceUrl;
-	}
+    public final void setId(long id) {
+        this.id = id;
+    }
 
-	@Column(name = "userProfileUrl")
-	private String userProfileUrl;
+    public final String getUserName() {
+        return this.userName;
+    }
 
-	public String getUserProfileUrl() {
-		return this.userProfileUrl;
-	}
+    public final void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	public void setUserProfileUrl(String userProfileUrl) {
-		this.userProfileUrl = userProfileUrl;
-	}
+    public final String getSourceUrl() {
+        return this.sourceUrl;
+    }
 
-	@Column(name = "userPhotoUrl")
-	private String userPhotoUrl;
+    public final void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
+    }
 
-	public String getUserPhotoUrl() {
-		return this.userPhotoUrl;
-	}
+    public final String getUserProfileUrl() {
+        return this.userProfileUrl;
+    }
 
-	public void setUserPhotoUrl(String userPhotoUrl) {
-		this.userPhotoUrl = userPhotoUrl;
-	}
+    public final void setUserProfileUrl(String userProfileUrl) {
+        this.userProfileUrl = userProfileUrl;
+    }
 
-	@Column(name = "message")
-	private String message;
+    public final String getUserPhotoUrl() {
+        return this.userPhotoUrl;
+    }
 
-	public String getMessage() {
-		return this.message;
-	}
+    public final void setUserPhotoUrl(String userPhotoUrl) {
+        this.userPhotoUrl = userPhotoUrl;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public final String getMessage() {
+        return this.message;
+    }
 
-	@Column(name = "recordPhotoUrl")
-	private String recordPhotoUrl;
+    public final void setMessage(String message) {
+        this.message = message;
+    }
 
-	public String getRecordPhotoUrl() {
-		return this.recordPhotoUrl;
-	}
+    public final String getRecordPhotoUrl() {
+        return this.recordPhotoUrl;
+    }
 
-	public void setRecordPhotoUrl(String recordPhotoUrl) {
-		this.recordPhotoUrl = recordPhotoUrl;
-	}
+    public final void setRecordPhotoUrl(String recordPhotoUrl) {
+        this.recordPhotoUrl = recordPhotoUrl;
+    }
 
-	public Record(long id, String userName, String sourceUrl,
-			String userProfileUrl, String userPhotoUrl, String message,
-			String recordPhotoUrl) {
+    public Record(long id, String userName, String sourceUrl,
+            String userProfileUrl, String userPhotoUrl, String message,
+            String recordPhotoUrl) {
 
-		this.id = id;
-		this.userName = userName;
-		this.sourceUrl = sourceUrl;
-		this.userProfileUrl = userProfileUrl;
-		this.userPhotoUrl = userPhotoUrl;
-		this.message = message;
-		this.recordPhotoUrl = recordPhotoUrl;
-	}
+        this.id = id;
+        this.userName = userName;
+        this.sourceUrl = sourceUrl;
+        this.userProfileUrl = userProfileUrl;
+        this.userPhotoUrl = userPhotoUrl;
+        this.message = message;
+        this.recordPhotoUrl = recordPhotoUrl;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + ((message == null) ? 0 : message.hashCode());
-		result = prime * result
-				+ ((recordPhotoUrl == null) ? 0 : recordPhotoUrl.hashCode());
-		result = prime * result
-				+ ((sourceUrl == null) ? 0 : sourceUrl.hashCode());
-		result = prime * result
-				+ ((userName == null) ? 0 : userName.hashCode());
-		result = prime * result
-				+ ((userPhotoUrl == null) ? 0 : userPhotoUrl.hashCode());
-		result = prime * result
-				+ ((userProfileUrl == null) ? 0 : userProfileUrl.hashCode());
-		return result;
-	}
+    @Override
+    public final int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (id ^ (id >>> 32));
+        result = prime * result + ((message == null) ? 0 : message.hashCode());
+        result = prime * result
+                + ((recordPhotoUrl == null) ? 0 : recordPhotoUrl.hashCode());
+        result = prime * result
+                + ((sourceUrl == null) ? 0 : sourceUrl.hashCode());
+        result = prime * result
+                + ((userName == null) ? 0 : userName.hashCode());
+        result = prime * result
+                + ((userPhotoUrl == null) ? 0 : userPhotoUrl.hashCode());
+        result = prime * result
+                + ((userProfileUrl == null) ? 0 : userProfileUrl.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Record other = (Record) obj;
+    @Override
+    public final boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Record other = (Record) obj;
 
-		if (sourceUrl == null) {
-			if (other.sourceUrl != null)
-				return false;
-		} else if (!sourceUrl.equals(other.sourceUrl))
-			return false;
+        if (id == 0) {
+            if (other.id != 0)
+                return false;
+        } else if (id != other.id)
+            return false;
 
-		return true;
-	}
+        if (sourceUrl == null) {
+            if (other.sourceUrl != null)
+                return false;
+        } else if (!sourceUrl.equals(other.sourceUrl))
+            return false;
 
-	public Record() {
-	}
+        return true;
+    }
+
+    public Record() {
+    }
 
 }

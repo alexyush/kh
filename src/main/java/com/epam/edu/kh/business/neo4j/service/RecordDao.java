@@ -1,4 +1,4 @@
-package com.epam.edu.kh.business.dao;
+package com.epam.edu.kh.business.neo4j.service;
 
 import java.util.List;
 
