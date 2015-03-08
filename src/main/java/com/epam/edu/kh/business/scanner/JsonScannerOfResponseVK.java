@@ -22,7 +22,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JsonScannerOfResponseVK implements JsonScannerOfResponse{
+public class JsonScannerOfResponseVK implements JsonScannerOfResponse {
 
     public JsonScannerOfResponseVK() {
     }

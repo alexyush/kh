@@ -1,27 +1,37 @@
 package com.epam.edu.kh.web.controls;
-
+ 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+ 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseBody; 
 
-import com.epam.edu.kh.business.dao.RecordDao;
+import com.epam.edu.kh.business.dao.record.RecordDao;
+import com.epam.edu.kh.business.dao.tag.TagDao;
 import com.epam.edu.kh.business.entity.Record;
+import com.epam.edu.kh.business.entity.Tag;
 import com.epam.edu.kh.business.scanner.JsonScannerOfResponseVK;
-import com.epam.edu.kh.business.service.RecordService;
+import com.epam.edu.kh.business.service.record.Names; 
+import com.epam.edu.kh.business.service.tag.TagService;
 
 @Controller
 public class RestController {
 
     @Autowired
     private RecordDao recordDao;
-
+ 
+    
     @Autowired
-    private RecordService recordService;
+    private TagDao tagDao;
+    
+    @Autowired
+    private TagService tagService;
 
     @Autowired
     private JsonScannerOfResponseVK jsonScannerOfResponseVK;
@@ -31,27 +41,24 @@ public class RestController {
     public final List<Record> getRecordsTop() {
         List<Record> response = recordDao.getListRecords();
         Collections.reverse(response);
-        return response;
+         return response;
     }
 
-    @RequestMapping(value = "/records/tag", method = RequestMethod.GET)
+    @RequestMapping(value = "/records/tags", method = RequestMethod.POST)
     @ResponseBody
-    public final List<Record> getRecordsTags() {
-
-        return null;
-
+    public final Set<Record> getRecordsTags(@RequestBody Names names) {
+         
+        return tagService.getRecordsByTagName(names.getNames());
     }
 
     @RequestMapping(value = "/records/toptags", method = RequestMethod.GET)
     @ResponseBody
-    public final List<Record> getTagsTop() {
-        return null;
-    }
-
-    @RequestMapping(value = "/records/vk", method = RequestMethod.GET)
-    @ResponseBody
-    public final List<Record> putRecordsIn() {
-        return null;
+    public final List<Tag> getTagsTop() {
+        
+        List<Tag> toptags = tagService.getTopTags();
+        Collections.reverse(toptags);
+        return toptags;
+        
     }
 
 }

@@ -1,10 +1,13 @@
 package com.epam.edu.kh.business.neo4j.entity;
+/*
+import java.util.HashSet;
+import java.util.Set; 
 
-import javax.persistence.Column;
-
+import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedTo;
 
 @NodeEntity
 public class Record {
@@ -12,7 +15,32 @@ public class Record {
     @GraphId
     @Indexed(unique=true) 
     private Long id;
+    
+    private String userName;
 
+    private String sourceUrl;
+
+    private String userProfileUrl;
+
+    private String userPhotoUrl;
+
+    private String message;
+
+    private String recordPhotoUrl;
+    
+    @RelatedTo(type = "TAGGED", direction = Direction.BOTH)
+    private Set<Tag> tags = new HashSet<Tag>();
+
+    public Set<Tag> getTags() {
+        return this.tags;
+    }
+
+    public void setRecords(Set<Tag> tags) {
+        this.tags = tags;
+    }
+    
+    
+        
     public Long getId() {
         return id;
     }
@@ -68,21 +96,9 @@ public class Record {
     public void setRecordPhotoUrl(String recordPhotoUrl) {
         this.recordPhotoUrl = recordPhotoUrl;
     }
-
-    private String userName;
-
-    private String sourceUrl;
-
-    private String userProfileUrl;
-
-    private String userPhotoUrl;
-
-    private String message;
-
-    private String recordPhotoUrl;
     
     public Record(){
         
     }
 
-}
+}*/

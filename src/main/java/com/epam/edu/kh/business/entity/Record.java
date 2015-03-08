@@ -1,18 +1,34 @@
 package com.epam.edu.kh.business.entity;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+ 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "Record")
-public class Record {
+public class Record implements Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6191213098841148229L;
 
     @Id
     @GeneratedValue
-    @Column(name = "id")
+    @Column(name = "recordId")
     private long id;
 
     @Column(name = "userName")
@@ -32,6 +48,19 @@ public class Record {
 
     @Column(name = "recordPhotoUrl")
     private String recordPhotoUrl;
+
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "tags_records", joinColumns = @JoinColumn(name = "record_Id"), inverseJoinColumns = @JoinColumn(name = "tag_Id"))
+    private Set<Tag> tags = new HashSet<Tag>();
+
+    public final Set<Tag> getTags() {
+        return this.tags;
+    }
+
+    public final void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
 
     public final long getId() {
         return this.id;
