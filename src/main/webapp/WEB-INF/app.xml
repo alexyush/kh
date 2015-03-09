@@ -45,4 +45,5 @@
 	<bean id="RecordService" class="com.epam.edu.kh.business.service.record.RecordServiceImpl"></bean>
 	<bean id="TagService" class="com.epam.edu.kh.business.service.tag.TagServiceImpl"></bean>
 
+	
 </beans>
