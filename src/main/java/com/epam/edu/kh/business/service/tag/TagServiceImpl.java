@@ -55,13 +55,13 @@ public class TagServiceImpl implements TagService {
         for (String tagsName : tags) {
             records.addAll(tagDao.getTagByName(tagsName).getRecords());
         }
-
         return records;
     }
 
     public List<Tag> getTopTags() {
         List<Tag> tags = tagDao.getAllTags();
-        qSort(tags, 0, tags.size()-1);
+        if(tags.size()!=0)
+            qSort(tags, 0, tags.size()-1);
 
         if (tags.size() <= 20)
             return tags;

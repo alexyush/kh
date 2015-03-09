@@ -5,7 +5,6 @@
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:task="http://www.springframework.org/schema/task" xmlns:neo4j="http://www.springframework.org/schema/data/neo4j"
 
-
 	xsi:schemaLocation="http://www.springframework.org/schema/beans    
    http://www.springframework.org/schema/beans/spring-beans.xsd 
    http://www.springframework.org/schema/context 
@@ -20,13 +19,6 @@
    http://www.springframework.org/schema/task/spring-task.xsd
    http://www.springframework.org/schema/data/neo4j
    http://www.springframework.org/schema/data/neo4j/spring-neo4j.xsd">
-
-
-
-	<!-- <neo4j:config storeDirectory="data/temp.db" base-package="com.epam.edu.kh.business.neo4j.entity" 
-		/> <neo4j:repositories base-package="com.epam.edu.kh.business.neo4j.repository"></neo4j:repositories> 
-		<neo4j:config storeDirectory="data/temp.db" base-package="com.epam.edu.kh.business.neo4j.entity" 
-		/> -->
 	
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
@@ -40,6 +32,11 @@
 		</property>
 	</bean>
 
+	<task:annotation-driven executor="executor"
+		scheduler="scheduler" />
+	<task:executor id="executor" pool-size="5" />
+	<task:scheduler id="scheduler" pool-size="10" />
+	
 	<bean id="RecordDao" class="com.epam.edu.kh.business.dao.record.RecordDaoImpl"></bean>
 	<bean id="TagDao" class="com.epam.edu.kh.business.dao.tag.TagDaoImpl"></bean>
 
@@ -47,10 +44,5 @@
 		class="com.epam.edu.kh.business.scanner.JsonScannerOfResponseVK"></bean>
 	<bean id="RecordService" class="com.epam.edu.kh.business.service.record.RecordServiceImpl"></bean>
 	<bean id="TagService" class="com.epam.edu.kh.business.service.tag.TagServiceImpl"></bean>
-
-	<task:annotation-driven executor="executor"
-		scheduler="scheduler" />
-	<task:executor id="executor" pool-size="5" />
-	<task:scheduler id="scheduler" pool-size="10" />
 
 </beans>

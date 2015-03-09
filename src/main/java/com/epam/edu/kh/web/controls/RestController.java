@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody; 
 
 import com.epam.edu.kh.business.dao.record.RecordDao;
-import com.epam.edu.kh.business.dao.tag.TagDao;
 import com.epam.edu.kh.business.entity.Record;
 import com.epam.edu.kh.business.entity.Tag;
 import com.epam.edu.kh.business.scanner.JsonScannerOfResponseVK;
@@ -25,10 +24,6 @@ public class RestController {
 
     @Autowired
     private RecordDao recordDao;
- 
-    
-    @Autowired
-    private TagDao tagDao;
     
     @Autowired
     private TagService tagService;
@@ -53,7 +48,7 @@ public class RestController {
 
     @RequestMapping(value = "/records/toptags", method = RequestMethod.GET)
     @ResponseBody
-    public final List<Tag> getTagsTop() {
+    public final List<Tag> getTopTags() {
         
         List<Tag> toptags = tagService.getTopTags();
         Collections.reverse(toptags);
