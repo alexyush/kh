@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 
 public class Tests {
 
-   /* JsonScannerOfResponseVK json = new JsonScannerOfResponseVK();
+    JsonScannerOfResponseVK json = new JsonScannerOfResponseVK();
     
     RecordDao recordDao = new RecordDaoImpl();
     
@@ -74,19 +74,9 @@ public class Tests {
         rec2.setSourceUrl("http://vk.com/wa-24502885_168300");
         assertTrue(rec1.equals(rec2));
     }
-
-    @Test
-    public final void test7() throws NullPointerException, IOException {
-
-        Record rec1 = json
-                .parseJsonOfResponse("http://vk.com/wall-24502885_168295");
-        Record rec2 = json
-                .parseJsonOfResponse("http://vk.com/id265302295?w=wall265302295_72");
-        assertFalse(rec1.getMessage().equals(rec2.getMessage()));
-    }*/
-    /*@Test 
+    @Test 
     public final void test8(){
-        String str = "123 привет малыш как ты gav-gav       dog";
+        String str = "#123 #привет #малыш как ты gav-gav       dog";
         
         TagService serv = new TagServiceImpl();
         
@@ -96,5 +86,5 @@ public class Tests {
             System.out.println(tag);
         }
     }
-    */
+    
 }
