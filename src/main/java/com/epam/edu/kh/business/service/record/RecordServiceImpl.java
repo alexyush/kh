@@ -85,7 +85,7 @@ public class RecordServiceImpl implements RecordService {
             }
         else {
             return str;
-        }
+            }
         newString = newString.concat("...");
         return newString;
     }

@@ -30,19 +30,19 @@ public class SocialScannerVk implements SocialScanner {
     public final String parseLink(final String linkToResource)
             throws NotFoundException {
 
-        final String wall_link_type_1 = "?w=wall";
-        final String wall_link_type_2 = "http://vk.com/wall";
+        final String wallLinkType1 = "?w=wall";
+        final String wallLinkType2 = "http://vk.com/wall";
 
         String link = "";
-        if (linkToResource.contains(wall_link_type_1)) {
+        if (linkToResource.contains(wallLinkType1)) {
 
-            int index = linkToResource.lastIndexOf(wall_link_type_1);
-            index += wall_link_type_1.length();
+            int index = linkToResource.lastIndexOf(wallLinkType1);
+            index += wallLinkType1.length();
             link = linkToResource.substring(index);
 
-        } else if (linkToResource.contains(wall_link_type_2)) {
-            int index = linkToResource.lastIndexOf(wall_link_type_2);
-            index += wall_link_type_2.length();
+        } else if (linkToResource.contains(wallLinkType2)) {
+            int index = linkToResource.lastIndexOf(wallLinkType2);
+            index += wallLinkType2.length();
             link = linkToResource.substring(index);
         } else {
             throw new NotFoundException("Sorry");
@@ -50,8 +50,7 @@ public class SocialScannerVk implements SocialScanner {
         return link;
     }
 
-    public final String getResponse(final String postId)
-            throws IOException {
+    public final String getResponse(final String postId) throws IOException {
 
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String json = "";
@@ -60,7 +59,7 @@ public class SocialScannerVk implements SocialScanner {
                     "http://api.vk.com/method/wall.getById?posts=" + postId
                             + "&extended=1&");
 
-            ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
+            ResponseHandler<String> respHand = new ResponseHandler<String>() {
 
                 public String handleResponse(final HttpResponse response)
                         throws ClientProtocolException, IOException {
@@ -75,7 +74,7 @@ public class SocialScannerVk implements SocialScanner {
                     }
                 }
             };
-            json = httpclient.execute(httpget, responseHandler);
+            json = httpclient.execute(httpget, respHand);
         } finally {
             httpclient.close();
         }
@@ -85,8 +84,8 @@ public class SocialScannerVk implements SocialScanner {
     public final Record parseResponse(final String linkToResource)
             throws IOException, NullPointerException {
 
-        byte[] jsonData = getResponse(parseLink(linkToResource))
-                .getBytes(Charset.forName("UTF-8"));
+        byte[] jsonData = getResponse(parseLink(linkToResource)).getBytes(
+                Charset.forName("UTF-8"));
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(jsonData);
         JsonNode response = rootNode.get("response");

@@ -1,5 +1,5 @@
-package com.epam.edu.kh.business.neo4j.entity;
-/*
+/*package com.epam.edu.kh.business.neo4j.entity;
+
 import java.util.HashSet;
 import java.util.Set;
 

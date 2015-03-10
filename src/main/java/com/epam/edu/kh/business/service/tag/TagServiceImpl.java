@@ -71,10 +71,11 @@ public class TagServiceImpl implements TagService {
         }
         if (tags.size() <= 20) {
             return tags;
-        }
+            }
         else {
             return tags.subList(0, 20);
         }
+
     }
 
     private void qSort(List<Tag> tags, int start, int end) {
@@ -105,7 +106,5 @@ public class TagServiceImpl implements TagService {
         if (i < end) {
             qSort(tags, i, end);
         }
-
     }
-
 }

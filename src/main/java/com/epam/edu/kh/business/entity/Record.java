@@ -19,9 +19,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "Record")
 public class Record implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -6191213098841148229L;
 
     @Id
@@ -49,7 +46,9 @@ public class Record implements Serializable {
 
     @JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "tags_records", joinColumns = @JoinColumn(name = "record_Id"), inverseJoinColumns = @JoinColumn(name = "tag_Id"))
+    @JoinTable(name = "tags_records",
+    joinColumns = @JoinColumn(name = "record_Id"),
+    inverseJoinColumns = @JoinColumn(name = "tag_Id"))
     private Set<Tag> tags = new HashSet<Tag>();
 
     public final Set<Tag> getTags() {
@@ -150,17 +149,21 @@ public class Record implements Serializable {
 
     @Override
     public final boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Record other = (Record) obj;
 
         if (id == 0) {
-            if (other.id != 0)
+            if (other.id != 0) {
                 return false;
+                }
         } else if (id != other.id) {
             return false;
         }
@@ -176,5 +179,4 @@ public class Record implements Serializable {
 
     public Record() {
     }
-
 }

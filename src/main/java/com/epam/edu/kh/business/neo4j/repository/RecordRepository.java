@@ -8,5 +8,4 @@ import com.epam.edu.kh.business.neo4j.entity.Record;
 
 public interface RecordRepository extends GraphRepository<Record>{
 
-}
-*/
+}*/

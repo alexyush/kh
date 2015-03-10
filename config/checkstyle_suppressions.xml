@@ -13,4 +13,5 @@
 	<suppress checks="JavadocPackage" files=".*\\*.java" />
 	<suppress checks="HiddenField" files=".*\\*.java"/>
 	<suppress checks="AvoidInlineConditionals" files=".*\\*.java"/>
+	<suppress checks="MagicNumber" files=".*\\*.java"/> 
 </suppressions>

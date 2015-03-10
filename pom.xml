@@ -183,7 +183,7 @@
 				<version>3.0.0</version>
 				<configuration>
 					<sourceEncoding>ISO-8859-1</sourceEncoding>
-					<includeFilterFile>/config/findbugs.xml</includeFilterFile>
+					<includeFilterFile>config/findbugs.xml</includeFilterFile>
 				</configuration>
 			</plugin>
 		</plugins>

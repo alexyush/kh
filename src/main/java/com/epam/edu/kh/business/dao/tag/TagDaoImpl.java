@@ -41,5 +41,4 @@ public class TagDaoImpl implements TagDao {
                 .createQuery("from Tag u where u.name=:name")
                 .setParameter("name", name).uniqueResult();
     }
-
 }

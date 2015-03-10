@@ -14,14 +14,6 @@ public class CommonController {
     @Qualifier("recordServiceImpl")
     private RecordService recordService;
 
-    /*
-     * @ExceptionHandler(Exception.class) public final ModelAndView
-     * handleError(Exception ex) {
-     * 
-     * ModelAndView mod = new ModelAndView(); mod.addObject("message",
-     * ex.getMessage()); mod.setViewName("/error"); return mod; }
-     */
-
     @RequestMapping(value = { "/", "/index" })
     public final ModelAndView viewIndex(final ModelAndView model) {
         model.setViewName("/index");
@@ -35,16 +27,6 @@ public class CommonController {
         model.setViewName("/index");
         recordService
                 .insertRecord("http://vk.com/id265302295?w=wall265302295_79");
-        /*
-         * recordService
-         * .insertRecord("http://vk.com/id265302295?w=wall265302295_78");
-         * 
-         * recordService
-         * .insertRecord("http://vk.com/id265302295?w=wall265302295_80");
-         * 
-         * recordService
-         * .insertRecord("http://vk.com/id265302295?w=wall265302295_81");
-         */
         return model;
 
     }

@@ -9,7 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface RecordService {
 
-    public void insertRecord(String links) throws JsonProcessingException,
+    void insertRecord(String links) throws JsonProcessingException,
             IOException;
 
     void scheduledUpdate();
