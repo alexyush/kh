@@ -1,7 +1,6 @@
 package com.epam.edu.kh.business.dao.tag;
 
 import java.util.List;
-
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,7 +35,7 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Transactional
-    public Tag getTagByName(String name) {
+    public final Tag getTagByName(String name) {
 
         return (Tag) sessionFactory.getCurrentSession()
                 .createQuery("from Tag u where u.name=:name")

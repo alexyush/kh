@@ -41,8 +41,9 @@ public class RecordServiceImpl implements RecordService {
         record.setTags(addTagsToRecord(record.getTags(),
                 tagService.getTagsFromMessage(record.getMessage())));
         record.setMessage(cutString(160, record.getMessage()));
-        for (Tag tag : record.getTags())
+        for (Tag tag : record.getTags()) {
             System.out.println(tag.getName());
+        }
         recordDao.saveRecord(record);
 
     }
@@ -79,10 +80,12 @@ public class RecordServiceImpl implements RecordService {
 
     public final String cutString(int i, String str) {
         String newString;
-        if (i < str.length())
+        if (i < str.length()) {
             newString = str.substring(0, i);
-        else
+            }
+        else {
             return str;
+        }
         newString = newString.concat("...");
         return newString;
     }

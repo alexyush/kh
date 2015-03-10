@@ -1,7 +1,6 @@
 package com.epam.edu.kh.business.dao.tag;
 
 import java.util.List;
-
 import com.epam.edu.kh.business.entity.Tag;
 
 public interface TagDao {

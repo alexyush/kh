@@ -3,7 +3,6 @@ package com.epam.edu.kh.business.entity;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
- 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -163,15 +161,16 @@ public class Record implements Serializable {
         if (id == 0) {
             if (other.id != 0)
                 return false;
-        } else if (id != other.id)
+        } else if (id != other.id) {
             return false;
-
+        }
         if (sourceUrl == null) {
-            if (other.sourceUrl != null)
+            if (other.sourceUrl != null) {
                 return false;
-        } else if (!sourceUrl.equals(other.sourceUrl))
+            }
+        } else if (!sourceUrl.equals(other.sourceUrl)) {
             return false;
-
+        }
         return true;
     }
 

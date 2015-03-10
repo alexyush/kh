@@ -38,9 +38,7 @@ public class Record {
     public void setRecords(Set<Tag> tags) {
         this.tags = tags;
     }
-    
-    
-        
+       
     public Long getId() {
         return id;
     }

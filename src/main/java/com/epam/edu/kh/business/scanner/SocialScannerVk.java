@@ -144,7 +144,7 @@ public class SocialScannerVk implements SocialScanner {
                 getRecordsPhotoUrl(jsonData));
     }
 
-    private final String getRecordsPhotoUrl(final byte[] jsonData)
+    private String getRecordsPhotoUrl(final byte[] jsonData)
             throws JsonParseException, IOException {
 
         JsonFactory jfactory = new JsonFactory();

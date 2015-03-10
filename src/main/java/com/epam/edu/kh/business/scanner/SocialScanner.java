@@ -7,12 +7,12 @@ import com.epam.edu.kh.business.entity.Record;
 
 public interface SocialScanner {
 
-    public String parseLink(final String linkToResource)
+    String parseLink(final String linkToResource)
             throws NotFoundException;
 
-    public String getResponse(final String postId) throws IOException;
+    String getResponse(final String postId) throws IOException;
 
-    public Record parseResponse(final String linkToResource)
+    Record parseResponse(final String linkToResource)
             throws IOException, NullPointerException;
 
 }

@@ -14,7 +14,7 @@ public class Names {
     public final Set<String> getNames() {
         return this.names;
     }
-    public final void setNames(Set<String> names){
+    public final void setNames(Set<String> names) {
         this.names = names;
     }
 }

@@ -26,8 +26,9 @@ public class TagServiceImpl implements TagService {
         Set<String> uniqueHashTags = new HashSet<String>();
 
         for (String tag : hashTags) {
-            if (tag.startsWith("#"))
+            if (tag.startsWith("#")) {
                 uniqueHashTags.add(tag.substring(1));
+            }
         }
         Set<Tag> tags = new HashSet<Tag>();
         for (String tag : uniqueHashTags) {
@@ -53,7 +54,7 @@ public class TagServiceImpl implements TagService {
 
     }
 
-    public Set<Record> getRecordsByTagName(Set<String> tags) {
+    public final Set<Record> getRecordsByTagName(Set<String> tags) {
 
         Set<Record> records = new HashSet<Record>();
         for (String tagsName : tags) {
@@ -63,30 +64,32 @@ public class TagServiceImpl implements TagService {
         return records;
     }
 
-    public List<Tag> getTopTags() {
+    public final List<Tag> getTopTags() {
         List<Tag> tags = tagDao.getAllTags();
-        if (tags.size() != 0)
+        if (tags.size() != 0) {
             qSort(tags, 0, tags.size() - 1);
-
-        if (tags.size() <= 20)
+        }
+        if (tags.size() <= 20) {
             return tags;
-        else
+        }
+        else {
             return tags.subList(0, 20);
+        }
     }
 
-    private final void qSort(List<Tag> tags, int start, int end) {
+    private void qSort(List<Tag> tags, int start, int end) {
 
         int i = start;
         int j = end;
         int x = tags.get((i + j) / 2).getRecords().size();
         do {
 
-            while (tags.get(i).getRecords().size() < x)
+            while (tags.get(i).getRecords().size() < x) {
                 ++i;
-
-            while (tags.get(j).getRecords().size() > x)
+            }
+            while (tags.get(j).getRecords().size() > x) {
                 --j;
-
+            }
             if (i <= j) {
                 Tag temp = tags.get(i);
                 tags.set(i, tags.get(j));
@@ -96,10 +99,12 @@ public class TagServiceImpl implements TagService {
             }
         } while (i <= j);
 
-        if (start < j)
+        if (start < j) {
             qSort(tags, start, j);
-        if (i < end)
+        }
+        if (i < end) {
             qSort(tags, i, end);
+        }
 
     }
 
