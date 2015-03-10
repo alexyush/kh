@@ -4,10 +4,11 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
- 
 import com.epam.edu.kh.business.entity.Tag;
 
+@Component("tagDaoImpl")
 public class TagDaoImpl implements TagDao {
 
     public TagDaoImpl() {
@@ -33,6 +34,7 @@ public class TagDaoImpl implements TagDao {
         return sessionFactory.getCurrentSession().createQuery("from Tag")
                 .list();
     }
+
     @Transactional
     public Tag getTagByName(String name) {
 

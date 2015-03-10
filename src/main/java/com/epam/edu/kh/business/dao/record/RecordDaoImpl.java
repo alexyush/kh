@@ -4,10 +4,11 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.epam.edu.kh.business.entity.Record;
 
+@Component("recordDaoImpl")
 public class RecordDaoImpl implements RecordDao {
 
     public RecordDaoImpl() {
@@ -24,15 +25,9 @@ public class RecordDaoImpl implements RecordDao {
 
     @Transactional
     @SuppressWarnings("unchecked")
-    public final List<Record> getListRecords() {
+    public final List<Record> getTopRecords() {
         return sessionFactory.getCurrentSession().createQuery("from Record")
                 .setMaxResults(15).list();
-    }
-
-    @Transactional
-    public final Record getRecord(final long id) {
-        return (Record) sessionFactory.getCurrentSession()
-                .get(Record.class, id);
     }
 
     @Transactional
@@ -51,8 +46,6 @@ public class RecordDaoImpl implements RecordDao {
 
     @Transactional
     public final void updateRecord(final Record rec) {
-
         sessionFactory.getCurrentSession().merge(rec);
-
     }
 }

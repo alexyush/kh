@@ -10,11 +10,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public interface RecordService {
 
     public void insertRecord(String links) throws JsonProcessingException,
-            IOException, Exception;
+            IOException;
 
-    public void checkDataBySchedule() throws IOException, Exception;
+    public void scheduledUpdate();
 
-    public void compareWithOriginalData(Record rec) throws IOException,
-            Exception;
-    public Set<Tag> addTagToRecord(Set<Tag> recordTags,Set<Tag> tags);
+    public void updatePropertiesOfRecord(Record rec);
+
+    public Set<Tag> addTagsToRecord(Set<Tag> recordTags, Set<Tag> tags);
 }

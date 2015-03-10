@@ -7,9 +7,7 @@ import com.epam.edu.kh.business.entity.Record;
 public interface RecordDao {
     void saveRecord(Record record);
 
-    Record getRecord(long id);
-
-    List<Record> getListRecords();
+    List<Record> getTopRecords();
 
     void delete(long id);
 

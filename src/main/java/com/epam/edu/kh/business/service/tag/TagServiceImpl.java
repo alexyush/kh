@@ -6,14 +6,18 @@ import java.util.Set;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import com.epam.edu.kh.business.dao.tag.TagDao;
 import com.epam.edu.kh.business.entity.Record;
 import com.epam.edu.kh.business.entity.Tag;
 
+@Component("tagServiceImpl")
 public class TagServiceImpl implements TagService {
 
     @Autowired
+    @Qualifier("tagDaoImpl")
     private TagDao tagDao;
 
     public final Set<Tag> getTagsFromMessage(String message) {
@@ -55,13 +59,14 @@ public class TagServiceImpl implements TagService {
         for (String tagsName : tags) {
             records.addAll(tagDao.getTagByName(tagsName).getRecords());
         }
+
         return records;
     }
 
     public List<Tag> getTopTags() {
         List<Tag> tags = tagDao.getAllTags();
-        if(tags.size()!=0)
-            qSort(tags, 0, tags.size()-1);
+        if (tags.size() != 0)
+            qSort(tags, 0, tags.size() - 1);
 
         if (tags.size() <= 20)
             return tags;
