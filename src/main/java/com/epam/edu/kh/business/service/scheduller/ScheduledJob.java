@@ -3,7 +3,7 @@ package com.epam.edu.kh.business.service.scheduller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import com.epam.edu.kh.business.scanner.SocialService;
+import com.epam.edu.kh.business.social.service.SocialService;
 
 @Component("scheduledJob")
 public class ScheduledJob {
@@ -24,7 +24,4 @@ public class ScheduledJob {
         socialService.updateRecords();
     }
 
-    public ScheduledJob() {
-
-    }
 }
