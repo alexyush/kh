@@ -29,7 +29,7 @@ public class Record implements Serializable {
     @Column(name = "userName")
     private String userName;
 
-    @Column(name = "sourceUrl")
+    @Column(name = "sourceUrl" , unique = true)
     private String sourceUrl;
 
     @Column(name = "userProfileUrl")

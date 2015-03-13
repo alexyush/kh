@@ -18,6 +18,20 @@
    http://www.springframework.org/schema/data/neo4j
    http://www.springframework.org/schema/data/neo4j/spring-neo4j.xsd">
 
+
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="configLocation">
+			<value>classpath:hibernate.cfg.xml</value>
+		</property>
+	</bean>
+
 	<task:annotation-driven executor="executor"
 		scheduler="scheduler" />
 	<task:executor id="executor" pool-size="5" />

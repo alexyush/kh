@@ -1,49 +1,50 @@
 import java.io.IOException;
-import java.util.List;
-
 import org.junit.Test; 
 
-import com.epam.edu.kh.business.entity.Record; 
-import com.epam.edu.kh.business.scanner.SocialScannerVK; 
+import com.epam.edu.kh.business.entity.Record;
+import com.epam.edu.kh.business.scanner.SocialReader;
+import com.epam.edu.kh.business.scanner.SocialReaderVK; 
 
 import static org.junit.Assert.*;
 public class SocialScannerVkTest {
 
-    private SocialScannerVK socialScanner = new SocialScannerVK();
+    private SocialReader socialReader = new SocialReaderVK();
     
     /*@Test
     public final void testNotEmptyList() throws IOException{
         
-        assertTrue(socialScanner.parseResponse("Г„Г®ГЎГ°Г ГҐГ‘ГЅГ°Г¶Г ", "").size()>0);
+
+        assertTrue(socialScanner.parseResponse("ДобраеСэрца", "").size()>0);
     }
     @Test
     public final void testNumberOfReturnedElements() throws IOException{
         
-        assertTrue(socialScanner.parseResponse("Г„Г®ГЎГ°Г ГҐГ‘ГЅГ°Г¶Г ", "1426156326").size()==1);
+        assertTrue(socialScanner.parseResponse("ДобраеСэрца", "1426156326").size()==1);
     }
     @Test
     public final void testForVerifyOriginalData() throws IOException{
         
-        List<Record> list = socialScanner.parseResponse("Г„Г®ГЎГ°Г ГҐГ‘ГЅГ°Г¶Г ", "1426156326");
+        List<Record> list = socialScanner.parseResponse("ДобраеСэрца", "1426156326");
         
         assertEquals(list.get(0).getId(),1);
-        assertEquals(list.get(0).getMessage(),"Г±ГЇГ Г±ГҐГ­ГЁГҐ ГЄГ®ГІГїГІ Г­ГҐГ¤Г®Г°Г®ГЈГ®!!!!!!#Г„Г®ГЎГ°Г ГҐГ‘ГЅГ°Г¶Г  Г°ГіГ«ГЁГЁГІ");
+        assertEquals(list.get(0).getMessage(),"спасение котят недорого!!!!!!#ДобраеСэрца рулиит");
         assertEquals(list.get(0).getUserName(),"ggggggg"); 
         assertEquals(list.get(0).getUserPhotoUrl(),"http://cs622122.vk.me/v622122295/1f7eb/YmYBdE2suZk.jpg"); 
     }
     @Test
     public final void testNullPointer() throws IOException{
         
-        System.out.println(socialScanner.parseResponse("Г„Г®ГЎГ°Г ГҐГ‘ГЅГ°Г¶Г ", "1426156327").size());
-        assertTrue(socialScanner.parseResponse("Г„Г®ГЎГ°Г ГҐГ‘ГЅГ°Г¶Г ", "1426156327").size()==0);
+        System.out.println(socialScanner.parseResponse("ДобраеСэрца", "1426156327").size());
+        assertTrue(socialScanner.parseResponse("ДобраеСэрца", "1426156327").size()==0);
     }*/
     @Test
     public final void testMyTest() throws IOException{
         
         Record record = new Record();
-        record.setSourceUrl("http://vk.com/wall265302295_95");
+        record.setSourceUrl("http://vk.com/wall-89375473_8");
         
-        socialScanner.getNewestDataForUpdate(record);
-        
+        record = socialReader.getNewestDataForUpdate(record);
+        System.out.println(record.getMessage());
+        System.out.println(record.getRecordPhotoUrl());
     }
 }

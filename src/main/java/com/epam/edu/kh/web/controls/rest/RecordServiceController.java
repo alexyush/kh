@@ -13,7 +13,6 @@ import com.epam.edu.kh.business.entity.Record;
 import com.epam.edu.kh.business.entity.Tag;
 import com.epam.edu.kh.business.service.record.Names;
 import com.epam.edu.kh.business.service.record.RecordService;
-import com.epam.edu.kh.business.service.tag.TagService;
 
 @Controller
 public class RecordServiceController {
@@ -21,10 +20,6 @@ public class RecordServiceController {
     @Autowired
     @Qualifier("recordServiceImpl")
     private RecordService recordService;
-
-    @Autowired
-    @Qualifier("tagServiceImpl")
-    private TagService tagService;
 
     @RequestMapping(value = "/records/top", method = RequestMethod.GET)
     @ResponseBody
@@ -37,14 +32,14 @@ public class RecordServiceController {
     @ResponseBody
     public final Set<Record> getRecordsTags(@RequestBody Names names) {
 
-        return tagService.getRecordsByTagName(names);
+        return recordService.getRecordsByTagsName(names);
     }
 
     @RequestMapping(value = "/records/toptags", method = RequestMethod.GET)
     @ResponseBody
     public final List<Tag> getTagsTop() {
 
-        return tagService.getTopTags();
+        return recordService.getTopTags();
 
     }
 }
