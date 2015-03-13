@@ -1,18 +1,21 @@
 package com.epam.edu.kh.business.scanner;
 
 import java.io.IOException;
-import org.springframework.security.acls.model.NotFoundException;
-
+import java.util.List;
+import org.apache.http.client.ClientProtocolException;
 import com.epam.edu.kh.business.entity.Record;
 
 public interface SocialScanner {
 
-    String parseLink(final String linkToResource)
-            throws NotFoundException;
+    String geNewRecords(String tag, String startTime)
+            throws ClientProtocolException, IOException;
 
-    String getResponse(final String postId) throws IOException;
+    List<Record> parseResponse(String tag, String startTime)
+            throws ClientProtocolException, IOException;
 
-    Record parseResponse(final String linkToResource)
-            throws IOException, NullPointerException;
+    void getAndSaveNewRecords(String tag, String startTime);
+
+    Record getNewestDataForUpdate(Record record)
+            throws ClientProtocolException, IOException;
 
 }

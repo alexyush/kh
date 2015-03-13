@@ -1,6 +1,9 @@
 package com.epam.edu.kh.business.dao.tag;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,8 +40,49 @@ public class TagDaoImpl implements TagDao {
     @Transactional
     public final Tag getTagByName(String name) {
 
-        return (Tag) sessionFactory.getCurrentSession()
+        Tag tag = (Tag) sessionFactory.getCurrentSession()
                 .createQuery("from Tag u where u.name=:name")
                 .setParameter("name", name).uniqueResult();
+
+        if (tag == null) {
+            throw new NullPointerException("this tag is null");
+        } else {
+            return tag;
+        }
+    }
+    @Transactional
+    public final Set<Tag> getTagsFromMessage(String message) {
+
+        String[] hashTags = message.split(" ");
+        Set<String> uniqueHashTags = new HashSet<String>();
+
+        for (String tag : hashTags) {
+            if (tag.startsWith("#")) {
+                uniqueHashTags.add(tag.substring(1));
+            }
+        }
+        Set<Tag> tags = new HashSet<Tag>();
+        for (String tag : uniqueHashTags) {
+            tags.add(insertTag(tag));
+        }
+        return tags;
+    }
+    @Transactional
+    public final Tag insertTag(String tagName) {
+
+        Tag tag = new Tag(1, tagName);
+        try {
+            Tag tagForCompare = getTagByName(tagName);
+            if (tagName.equals(tagForCompare.getName())) {
+                return tagForCompare;
+            } else {
+                saveTag(tag);
+                return tag;
+            }
+        } catch (NullPointerException ex) {
+            saveTag(tag);
+            return tag;
+        }
+
     }
 }

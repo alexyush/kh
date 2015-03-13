@@ -2,6 +2,9 @@ package com.epam.edu.kh.business.scanner;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -10,54 +13,35 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.springframework.security.acls.model.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import com.epam.edu.kh.business.dao.record.RecordDao;
 import com.epam.edu.kh.business.entity.Record;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component("socialScannerVk")
-public class SocialScannerVk implements SocialScanner {
+public class SocialScannerVK implements SocialScanner {
 
-    public SocialScannerVk() {
+    @Autowired
+    @Qualifier("recordDaoImpl")
+    private RecordDao recordDao;
+
+    public SocialScannerVK() {
+
     }
 
-    public final String parseLink(final String linkToResource)
-            throws NotFoundException {
-
-        final String wallLinkType1 = "?w=wall";
-        final String wallLinkType2 = "http://vk.com/wall";
-
-        String link = "";
-        if (linkToResource.contains(wallLinkType1)) {
-
-            int index = linkToResource.lastIndexOf(wallLinkType1);
-            index += wallLinkType1.length();
-            link = linkToResource.substring(index);
-
-        } else if (linkToResource.contains(wallLinkType2)) {
-            int index = linkToResource.lastIndexOf(wallLinkType2);
-            index += wallLinkType2.length();
-            link = linkToResource.substring(index);
-        } else {
-            throw new NotFoundException("Sorry");
-        }
-        return link;
-    }
-
-    public final String getResponse(final String postId) throws IOException {
+    public final String geNewRecords(String tag, String strDate)
+            throws ClientProtocolException, IOException {
 
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String json = "";
         try {
             HttpGet httpget = new HttpGet(
-                    "http://api.vk.com/method/wall.getById?posts=" + postId
-                            + "&extended=1&");
+                    "https://api.vk.com/method/newsfeed.search" + "?q=%23"
+                            + tag + "&extended=1" + "&start_time=" + strDate);
 
             ResponseHandler<String> respHand = new ResponseHandler<String>() {
 
@@ -81,86 +65,151 @@ public class SocialScannerVk implements SocialScanner {
         return json;
     }
 
-    public final Record parseResponse(final String linkToResource)
-            throws IOException, NullPointerException {
+    public final List<Record> parseResponse(String tag, String startTime)
+            throws ClientProtocolException, IOException {
 
-        byte[] jsonData = getResponse(parseLink(linkToResource)).getBytes(
+        List<Record> newRecords = new ArrayList<Record>();
+        byte[] jsonData = geNewRecords(tag, startTime).getBytes(
                 Charset.forName("UTF-8"));
+
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(jsonData);
-        JsonNode response = rootNode.get("response");
 
-        if (response == null) {
-            throw new NullPointerException("Response is null");
-        } else if (response.get("wall").size() == 0) {
-            throw new NullPointerException("Post not contains wall[]!");
-        } else if (response.get("profiles").size() == 0
-                && response.get("groups").size() == 0) {
-            throw new NullPointerException("Post not contains groups[]!");
-        }
-        if (response.get("groups").size() != 0) {
-            return parseByGroupType(linkToResource, rootNode, jsonData);
+        if (rootNode.get("response").size() != 0) {
+            Iterator<JsonNode> js = rootNode.get("response").elements();
+            JsonNode el = js.next();
+            while (js.hasNext()) {
 
-        } else {
-            return parseByUserType(linkToResource, rootNode, jsonData);
-        }
-    }
+                String name = "";
+                String userProfileUrl = "";
+                String sourceUrl = "";
+                String profilePhotoUrl = "";
+                String recordPhotoUrl = "";
+                String message = "";
+                Long date;
 
-    public final Record parseByUserType(final String linkToResource,
-            final JsonNode rootNode, byte[] jsonData)
-            throws JsonProcessingException, IOException {
+                el = js.next();
+                date = el.path("date").asLong();
+                if (el.path("user").findValue("first_name") != null) {
 
-        JsonNode response = rootNode.get("response");
-        JsonNode wall = response.get("wall");
-        JsonNode profiles = response.get("profiles");
-        JsonNode firstUserName = profiles.findValue("first_name");
-        JsonNode lastUserName = profiles.findValue("last_name");
-        JsonNode userProfileUrl = profiles.findValue("screen_name");
-        JsonNode userPhotoUrl = profiles.findValue("photo_medium_rec");
-        JsonNode message = wall.findValue("text");
+                    name = el.path("user").findValue("first_name").asText()
+                            + " ";
+                    name = name.concat(el.path("user").findValue("last_name")
+                            .asText());
+                    userProfileUrl = "http://vk.com/"
+                            + el.path("user").findValue("screen_name").asText();
+                    profilePhotoUrl = el.path("user")
+                            .findValue("photo_medium_rec").asText();
+                } else {
+                    name = el.path("group").findValue("name").asText();
+                    userProfileUrl = "http://vk.com/"
+                            + el.path("group").findValue("screen_name")
+                                    .asText();
+                    profilePhotoUrl = el.path("group")
+                            .findValue("photo_medium").asText();
+                }
+                sourceUrl = "http://vk.com/wall" + el.findValue("owner_id")
+                        + "_" + el.findValue("id");
 
-        return new Record(1, firstUserName.asText() + " "
-                + lastUserName.asText(), linkToResource, "http://vk.com/"
-                + userProfileUrl.asText(), userPhotoUrl.asText(),
-                message.asText(), getRecordsPhotoUrl(jsonData));
-    }
-
-    public final Record parseByGroupType(final String linkToResource,
-            final JsonNode rootNode, final byte[] jsonData)
-            throws JsonProcessingException, IOException {
-
-        JsonNode response = rootNode.get("response");
-        JsonNode wall = response.get("wall");
-        JsonNode groups = response.get("groups");
-        JsonNode groupName = groups.findValue("name");
-        JsonNode groupProfileUrl = groups.findValue("gid");
-        JsonNode userPhotoUrl = groups.findValue("photo_medium");
-        JsonNode message = wall.findValue("text");
-
-        return new Record(1, groupName.asText(), linkToResource,
-                "http://vk.com/public" + groupProfileUrl.asText(),
-                userPhotoUrl.asText(), message.asText(),
-                getRecordsPhotoUrl(jsonData));
-    }
-
-    private String getRecordsPhotoUrl(final byte[] jsonData)
-            throws JsonParseException, IOException {
-
-        JsonFactory jfactory = new JsonFactory();
-
-        JsonParser jParser = jfactory.createParser(jsonData);
-
-        while (jParser.nextToken() != JsonToken.END_ARRAY) {
-
-            if ("attachments".equals(jParser.getCurrentName())) {
-                while (jParser.nextToken() != JsonToken.END_ARRAY) {
-                    if ("src_big".equals(jParser.getCurrentName())) {
-                        return jParser.nextTextValue();
+                if (el.get("attachment") != null) {
+                    if (el.get("attachment").get("photo") != null) {
+                        recordPhotoUrl = el.get("attachment").get("photo")
+                                .get("src_big").asText();
                     }
                 }
+                if (el.get("post_type").asText().equals("post")) {
+                    message = el.get("text").asText();
+                } else {
+                    message = el.get("copy_text").asText();
+                }
+                newRecords.add(new Record(1, name, sourceUrl, userProfileUrl,
+                        profilePhotoUrl, message, recordPhotoUrl, date));
             }
-            jParser.nextToken();
         }
-        return "";
+        return newRecords;
+    }
+
+    public final void getAndSaveNewRecords(String tag, String startTime) {
+
+        List<Record> newRecords;
+
+        try {
+            newRecords = parseResponse(tag, startTime);
+
+            Iterator<Record> newRecordsIt = newRecords.iterator();
+            while (newRecordsIt.hasNext()) {
+
+                try {
+                    recordDao.insertRecord(newRecordsIt.next());
+                } catch (JsonProcessingException e) {
+                    System.out.println("Error:" + e);
+                } catch (IOException e) {
+                    System.out.println("Error:" + e);
+                }
+            }
+        } catch (ClientProtocolException e1) {
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+    }
+
+    public final Record getNewestDataForUpdate(Record record)
+            throws ClientProtocolException, IOException {
+
+        int index = record.getSourceUrl().lastIndexOf("http://vk.com/wall");
+        index += "http://vk.com/wall".length();
+        String postId = record.getSourceUrl().substring(index);
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        String jsonData = "";
+        try {
+            HttpGet httpget = new HttpGet(
+                    "http://api.vk.com/method/wall.getById?posts=" + postId
+                            + "&extended=1&");
+
+            ResponseHandler<String> respHand = new ResponseHandler<String>() {
+
+                public String handleResponse(final HttpResponse response)
+                        throws ClientProtocolException, IOException {
+                    int status = response.getStatusLine().getStatusCode();
+                    if (status >= 200 && status < 300) {
+                        HttpEntity entity = response.getEntity();
+                        return entity != null ? EntityUtils.toString(entity)
+                                : null;
+                    } else {
+                        throw new ClientProtocolException(
+                                "Unexpected response status: " + status);
+                    }
+                }
+            };
+            jsonData = httpclient.execute(httpget, respHand);
+        } finally {
+            httpclient.close();
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(jsonData);
+
+        JsonNode wall = rootNode.get("response").get("wall");
+        JsonNode insideWall = rootNode.get("response").get("wall").get(0);
+        String message = "";
+        String recordPhotoUrl = "";
+
+        if (wall.findValue("text").asText().contains("#ДобраеСэрца")) {
+            message = rootNode.get("response").get("wall").findValue("text")
+                    .asText();
+        } else {
+            throw new NullPointerException("Tag kind-heart are lost");
+        }
+        if (insideWall != null) {
+            if (insideWall.get("attachment") != null) {
+                recordPhotoUrl = insideWall.get("attachment")
+                        .findValue("src_big").asText();
+            }
+        }
+        record.setMessage(message);
+        record.setRecordPhotoUrl(recordPhotoUrl);
+        return record;
     }
 }

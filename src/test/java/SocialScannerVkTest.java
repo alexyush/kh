@@ -1,66 +1,49 @@
- 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Test; 
-import org.springframework.security.acls.model.NotFoundException; 
- 
+
 import com.epam.edu.kh.business.entity.Record; 
-import com.epam.edu.kh.business.scanner.SocialScannerVk; 
+import com.epam.edu.kh.business.scanner.SocialScannerVK; 
 
 import static org.junit.Assert.*;
-
 public class SocialScannerVkTest {
-     
-    SocialScannerVk json = new SocialScannerVk();
+
+    private SocialScannerVK socialScanner = new SocialScannerVK();
     
-    @Test
-    public final void testReturnedUserName() throws NullPointerException, IOException {
-
-        Record rec1 = new Record();
-        rec1.setUserName("�����");
-        Record rec2 = json
-                .parseResponse("http://vk.com/id265302295?w=wall265302295_72");
-        assertEquals(rec1.getUserName(), rec2.getUserName());
+    /*@Test
+    public final void testNotEmptyList() throws IOException{
+        
+        assertTrue(socialScanner.parseResponse("ÄîáðàåÑýðöà", "").size()>0);
     }
-
     @Test
-    public final void testReturnedUserNameFromAnotherLinks() throws NullPointerException, IOException {
-
-        Record rec1 = json
-                .parseResponse("http://vk.com/wall-24502885_168300");
-        Record rec2 = json
-                .parseResponse("http://vk.com/wall-24502885_168295");
-        assertEquals(rec1.getUserName(), rec2.getUserName());
+    public final void testNumberOfReturnedElements() throws IOException{
+        
+        assertTrue(socialScanner.parseResponse("ÄîáðàåÑýðöà", "1426156326").size()==1);
     }
-
     @Test
-    public final void testBadLink() throws NullPointerException, IOException {
-
-        assertEquals("-24502885_168300",
-                json.parseLink("http://vk.com/wall-24502885_168300"));
+    public final void testForVerifyOriginalData() throws IOException{
+        
+        List<Record> list = socialScanner.parseResponse("ÄîáðàåÑýðöà", "1426156326");
+        
+        assertEquals(list.get(0).getId(),1);
+        assertEquals(list.get(0).getMessage(),"ñïàñåíèå êîòÿò íåäîðîãî!!!!!!#ÄîáðàåÑýðöà ðóëèèò");
+        assertEquals(list.get(0).getUserName(),"ggggggg"); 
+        assertEquals(list.get(0).getUserPhotoUrl(),"http://cs622122.vk.me/v622122295/1f7eb/YmYBdE2suZk.jpg"); 
     }
-
     @Test
-    public final void testReturnedPostIdFalse() throws NullPointerException, IOException {
-
-        assertFalse("-24502885_168300".equals(json
-                .parseLink("http://vk.com/wallwqerqweqwe_168300")));
-    }
-
-    @Test(expected = NotFoundException.class)
-    public final void testReturnedPostIdTrue() throws NullPointerException, IOException {
-
-        assertEquals("-24502885_168300",
-                json.parseLink("http://vk.com/wa-24502885_168300"));
-    }
-
+    public final void testNullPointer() throws IOException{
+        
+        System.out.println(socialScanner.parseResponse("ÄîáðàåÑýðöà", "1426156327").size());
+        assertTrue(socialScanner.parseResponse("ÄîáðàåÑýðöà", "1426156327").size()==0);
+    }*/
     @Test
-    public final void testReturnedMessage() throws NullPointerException, IOException {
-
-        Record rec1 = json
-                .parseResponse("http://vk.com/wall-24502885_168295");
-        Record rec2 = json
-                .parseResponse("http://vk.com/id265302295?w=wall265302295_72");
-        assertFalse(rec1.getMessage().equals(rec2.getMessage()));
+    public final void testMyTest() throws IOException{
+        
+        Record record = new Record();
+        record.setSourceUrl("http://vk.com/wall265302295_95");
+        
+        socialScanner.getNewestDataForUpdate(record);
+        
     }
 }

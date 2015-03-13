@@ -1,6 +1,7 @@
 package com.epam.edu.kh.business.dao.tag;
 
 import java.util.List;
+import java.util.Set;
 import com.epam.edu.kh.business.entity.Tag;
 
 public interface TagDao {
@@ -11,4 +12,9 @@ public interface TagDao {
     List<Tag> getAllTags();
 
     Tag getTagByName(String name);
+
+    Set<Tag> getTagsFromMessage(String message);
+
+    Tag insertTag(String tagName);
+
 }

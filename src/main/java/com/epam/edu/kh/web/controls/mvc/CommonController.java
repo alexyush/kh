@@ -20,14 +20,4 @@ public class CommonController {
         return model;
     }
 
-    @RequestMapping(value = "/add")
-    public final ModelAndView addRecord(final ModelAndView model)
-            throws Exception {
-
-        model.setViewName("/index");
-        recordService
-                .insertRecord("http://vk.com/id265302295?w=wall265302295_79");
-        return model;
-
-    }
 }

@@ -44,6 +44,9 @@ public class Record implements Serializable {
     @Column(name = "recordPhotoUrl")
     private String recordPhotoUrl;
 
+    @Column(name = "dateOfCreate")
+    private Long dateOfCreate;
+
     @JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "tags_records",
@@ -115,9 +118,17 @@ public class Record implements Serializable {
         this.recordPhotoUrl = recordPhotoUrl;
     }
 
+    public final Long getDateOfCreate() {
+        return dateOfCreate;
+    }
+
+    public final void setDateOfCreate(Long dateOfCreate) {
+        this.dateOfCreate = dateOfCreate;
+    }
+
     public Record(long id, String userName, String sourceUrl,
             String userProfileUrl, String userPhotoUrl, String message,
-            String recordPhotoUrl) {
+            String recordPhotoUrl, Long dateOfCreate) {
 
         this.id = id;
         this.userName = userName;
@@ -126,6 +137,7 @@ public class Record implements Serializable {
         this.userPhotoUrl = userPhotoUrl;
         this.message = message;
         this.recordPhotoUrl = recordPhotoUrl;
+        this.dateOfCreate = dateOfCreate;
     }
 
     @Override
