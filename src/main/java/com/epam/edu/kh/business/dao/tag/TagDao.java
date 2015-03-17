@@ -5,16 +5,16 @@ import java.util.Set;
 import com.epam.edu.kh.business.entity.Tag;
 
 public interface TagDao {
-    void saveTag(Tag tag);
+    void save(Tag tag);
 
-    Tag getTag(long id);
+    Tag get(long id);
 
-    List<Tag> getAllTags();
+    Tag insert(String tagName);
 
-    Tag getTagByName(String name);
+    Tag getByName(String name);
 
-    Set<Tag> getTagsFromMessage(String message);
+    List<Tag> getAll();
 
-    Tag insertTag(String tagName);
+    Set<Tag> getFromMessage(String message);
 
 }

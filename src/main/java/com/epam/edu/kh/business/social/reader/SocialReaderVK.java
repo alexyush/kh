@@ -1,4 +1,4 @@
-package com.epam.edu.kh.business.social.scanner;
+package com.epam.edu.kh.business.social.reader;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -41,14 +41,15 @@ public class SocialReaderVK implements SocialReader {
         String startTime;
         try {
 
-            startTime = recordService.getLastDateOfCreate().toString() + 1;
+            startTime = String.valueOf(recordService
+                    .getDateOfLastInsertedRecord() + 1);
 
         } catch (NullPointerException ex) {
             startTime = "";
         }
 
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        String json = "";
+        String response = "";
         try {
             HttpGet httpget = new HttpGet(
                     "https://api.vk.com/method/newsfeed.search" + "?q=%23"
@@ -69,24 +70,23 @@ public class SocialReaderVK implements SocialReader {
                     }
                 }
             };
-            json = httpclient.execute(httpget, respHand);
+            response = httpclient.execute(httpget, respHand);
         } finally {
             httpclient.close();
         }
-        return json;
+        return response;
     }
 
-    public final String getResponseForUpdateRecord(Record record)
+    public final String getResponseForUpdateRecord(String sourceUrl)
             throws ClientProtocolException, IOException {
 
         int index = "http://vk.com/wall".length();
-        String jsonData = "";
+        String response = "";
         CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
             HttpGet httpget = new HttpGet(
                     "http://api.vk.com/method/wall.getById?posts="
-                            + record.getSourceUrl().substring(index)
-                            + "&extended=1&");
+                            + sourceUrl.substring(index) + "&extended=1&");
 
             ResponseHandler<String> respHand = new ResponseHandler<String>() {
 
@@ -103,11 +103,11 @@ public class SocialReaderVK implements SocialReader {
                     }
                 }
             };
-            jsonData = httpclient.execute(httpget, respHand);
+            response = httpclient.execute(httpget, respHand);
         } finally {
             httpclient.close();
         }
-        return jsonData;
+        return response;
     }
 
     public final List<Record> getNewRecordsByTag(String tag)
@@ -172,23 +172,22 @@ public class SocialReaderVK implements SocialReader {
                 } else {
                     message = element.get("copy_text").asText();
                 }
-                newRecords.add(new Record(1, name, sourceUrl, userProfileUrl,
-                        profilePhotoUrl, message, recordPhotoUrl, date));
+                newRecords.add(new Record(1, name, sourceUrl, "vk",
+                        userProfileUrl, profilePhotoUrl, message,
+                        recordPhotoUrl, date));
             }
         }
+        System.out.println("Count of new records:" + newRecords.size());
         return newRecords;
     }
 
     public final void getAndSaveNewRecordsByTag(String tag) {
 
         List<Record> newRecords;
-
         try {
             newRecords = getNewRecordsByTag(tag);
-
             Iterator<Record> newRecordsIt = newRecords.iterator();
             while (newRecordsIt.hasNext()) {
-
                 recordService.insertRecord(newRecordsIt.next());
             }
         } catch (ClientProtocolException e1) {
@@ -201,31 +200,31 @@ public class SocialReaderVK implements SocialReader {
 
     public final void updatesAllRecords() {
 
-            Iterator<Record> recIt = recordService.getAllRecords().iterator();
-            Record currentrec;
-            while (recIt.hasNext()) {
-                currentrec = recIt.next();
-                try {
-                    updateCurrentRecord(currentrec);
-                } catch (JsonProcessingException e) {
-                    System.out.println("in updateCurrentRecord:" + e);
-                } catch (ClientProtocolException e) {
-                    System.out.println("in updateCurrentRecord:" + e);
-                } catch (IOException e) {
-                    System.out.println("in updateCurrentRecord:" + e);
-                }
+        Iterator<Record> recIt = recordService.getAllRecords().iterator();
+        Record currentrec;
+        while (recIt.hasNext()) {
+            currentrec = recIt.next();
+            try {
+                updateCurrentRecord(currentrec.getId());
+            } catch (JsonProcessingException e) {
+                System.out.println(e);
+            } catch (ClientProtocolException e) {
+                System.out.println(e);
+            } catch (IOException e) {
+                System.out.println(e);
             }
+        }
 
     }
 
-    public final void updateCurrentRecord(Record record)
+    public final void updateCurrentRecord(Long recordId)
             throws JsonProcessingException, ClientProtocolException,
             IOException {
-
+        Record record = recordService.getRecord(recordId);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper
-                    .readTree(getResponseForUpdateRecord(record));
+                    .readTree(getResponseForUpdateRecord(record.getSourceUrl()));
 
             JsonNode wall = rootNode.get("response").get("wall");
             JsonNode insideWall = rootNode.get("response").get("wall").get(0);
@@ -233,7 +232,8 @@ public class SocialReaderVK implements SocialReader {
             String recordPhotoUrl = "";
 
             if (wall.findValue("copy_text") != null
-                    && wall.findValue("text").asText().contains("#ДобраеСэрца")) {
+                    && wall.findValue("copy_text").asText()
+                            .contains("#ДобраеСэрца")) {
 
                 message = rootNode.get("response").get("wall")
                         .findValue("copy_text").asText();
@@ -253,9 +253,13 @@ public class SocialReaderVK implements SocialReader {
             record.setMessage(message);
             record.setRecordPhotoUrl(recordPhotoUrl);
             recordService.updateRecord(record);
-        } catch (Exception d) {
-            recordService.delete(record.getId());
+        } catch (NullPointerException e) {
+            System.out.println(e);
+            recordService.deleteRecord(record.getId());
+        } catch (JsonProcessingException e) {
+            System.out.println(e);
+        } catch (ClientProtocolException e) {
+            System.out.println(e);
         }
-
     }
 }

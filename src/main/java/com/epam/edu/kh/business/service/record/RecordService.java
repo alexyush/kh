@@ -6,24 +6,28 @@ import java.util.Set;
 
 import com.epam.edu.kh.business.entity.Record;
 import com.epam.edu.kh.business.entity.Tag;
+import com.epam.edu.kh.business.entity.TagNames;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface RecordService {
 
-    List<Record> getTopRecords();
-
     void insertRecord(Record record) throws JsonProcessingException,
             IOException;
 
-    Set<Record> getRecordsByTagsName(Names tagsNames);
+    void deleteRecord(long id);
+
+    void updateRecord(Record rec);
+
+    Long getDateOfLastInsertedRecord();
+
+    Record getRecord(Long id);
 
     List<Tag> getTopTags();
 
-    Long getLastDateOfCreate();
+    List<Record> getTopRecords();
 
     List<Record> getAllRecords();
 
-    void delete(long id);
+    Set<Record> getRecordsByTagNames(TagNames tagsNames);
 
-    void updateRecord(Record rec);
 }

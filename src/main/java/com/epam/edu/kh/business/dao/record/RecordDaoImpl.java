@@ -1,12 +1,14 @@
 package com.epam.edu.kh.business.dao.record;
 
 import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.epam.edu.kh.business.entity.Record;
 
 @Component("recordDaoImpl")
@@ -20,19 +22,19 @@ public class RecordDaoImpl implements RecordDao {
     private SessionFactory sessionFactory;
 
     @Transactional
-    public final void saveRecord(final Record record) {
+    public final void save(final Record record) {
         sessionFactory.getCurrentSession().save(record);
     }
 
     @Transactional
     @SuppressWarnings("unchecked")
-    public final List<Record> getTopRecords(int count) {
+    public final List<Record> getTop(int count) {
         return sessionFactory.getCurrentSession().createQuery("from Record")
                 .setMaxResults(count).list();
     }
 
     @Transactional
-    public final void delete(final long id) {
+    public final void delete(Long id) {
         sessionFactory.getCurrentSession()
                 .createQuery("delete from Record u where u.id=:id")
                 .setParameter("id", id).executeUpdate();
@@ -40,18 +42,18 @@ public class RecordDaoImpl implements RecordDao {
 
     @SuppressWarnings("unchecked")
     @Transactional
-    public final List<Record> getAllRecords() {
+    public final List<Record> getAll() {
         return sessionFactory.getCurrentSession().createQuery("from Record")
                 .list();
     }
 
     @Transactional
-    public final void updateRecord(final Record rec) {
+    public final void update(final Record rec) {
         sessionFactory.getCurrentSession().merge(rec);
     }
 
     @Transactional
-    public final Long getLastDateOfCreate() {
+    public final Long getDateOfLastInsertedRecord() {
 
         Long dateOfCreate;
         Criteria criteria = sessionFactory.getCurrentSession()
@@ -64,6 +66,9 @@ public class RecordDaoImpl implements RecordDao {
             return dateOfCreate;
         }
     }
-
-
+    @Transactional
+    public final Record get(Long id) {
+        return (Record) sessionFactory.getCurrentSession()
+                .get(Record.class, id);
+    }
 }

@@ -1,11 +1,11 @@
-package com.epam.edu.kh.business.service.record;
+package com.epam.edu.kh.business.entity;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class Names {
+public class TagNames {
 
-    public Names() {
+    public TagNames() {
 
     }
 

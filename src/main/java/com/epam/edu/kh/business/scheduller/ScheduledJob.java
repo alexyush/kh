@@ -1,4 +1,4 @@
-package com.epam.edu.kh.business.service.scheduller;
+package com.epam.edu.kh.business.scheduller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,14 +13,11 @@ public class ScheduledJob {
 
     @Scheduled(fixedDelay = 50000)
     public final void getNewRecords() {
-
         socialService.searchForNewRecords();
-
     }
 
-    @Scheduled(fixedDelay = 100000)
+    @Scheduled(fixedDelay = 200000)
     public final void updateRecords() {
-
         socialService.updateRecords();
     }
 

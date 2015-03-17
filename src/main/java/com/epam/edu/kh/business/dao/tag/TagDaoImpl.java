@@ -20,24 +20,24 @@ public class TagDaoImpl implements TagDao {
     private SessionFactory sessionFactory;
 
     @Transactional
-    public final void saveTag(final Tag tag) {
+    public final void save(final Tag tag) {
         sessionFactory.getCurrentSession().save(tag);
     }
 
     @Transactional
-    public final Tag getTag(final long id) {
+    public final Tag get(final long id) {
         return (Tag) sessionFactory.getCurrentSession().get(Tag.class, id);
     }
 
     @SuppressWarnings("unchecked")
     @Transactional
-    public final List<Tag> getAllTags() {
+    public final List<Tag> getAll() {
         return sessionFactory.getCurrentSession().createQuery("from Tag")
                 .list();
     }
 
     @Transactional
-    public final Tag getTagByName(String name) {
+    public final Tag getByName(String name) {
 
         Tag tag = (Tag) sessionFactory.getCurrentSession()
                 .createQuery("from Tag u where u.name=:name")
@@ -50,7 +50,7 @@ public class TagDaoImpl implements TagDao {
         }
     }
     @Transactional
-    public final Set<Tag> getTagsFromMessage(String message) {
+    public final Set<Tag> getFromMessage(String message) {
 
         String[] hashTags = message.split(" ");
         Set<String> uniqueHashTags = new HashSet<String>();
@@ -62,26 +62,25 @@ public class TagDaoImpl implements TagDao {
         }
         Set<Tag> tags = new HashSet<Tag>();
         for (String tag : uniqueHashTags) {
-            tags.add(insertTag(tag));
+            tags.add(insert(tag));
         }
         return tags;
     }
     @Transactional
-    public final Tag insertTag(String tagName) {
+    public final Tag insert(String tagName) {
 
         Tag tag = new Tag(1, tagName);
         try {
-            Tag tagForCompare = getTagByName(tagName);
+            Tag tagForCompare = getByName(tagName);
             if (tagName.equals(tagForCompare.getName())) {
                 return tagForCompare;
             } else {
-                saveTag(tag);
+                save(tag);
                 return tag;
             }
         } catch (NullPointerException ex) {
-            saveTag(tag);
+            save(tag);
             return tag;
         }
-
     }
 }

@@ -1,4 +1,4 @@
-package com.epam.edu.kh.business.social.scanner;
+package com.epam.edu.kh.business.social.reader;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,6 +15,6 @@ public interface SocialReader {
 
     void updatesAllRecords();
 
-    void updateCurrentRecord(Record record) throws JsonProcessingException,
+    void updateCurrentRecord(Long id) throws JsonProcessingException,
             ClientProtocolException, IOException;
 }

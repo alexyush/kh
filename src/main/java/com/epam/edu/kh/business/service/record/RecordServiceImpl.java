@@ -14,6 +14,7 @@ import com.epam.edu.kh.business.dao.record.RecordDao;
 import com.epam.edu.kh.business.dao.tag.TagDao;
 import com.epam.edu.kh.business.entity.Record;
 import com.epam.edu.kh.business.entity.Tag;
+import com.epam.edu.kh.business.entity.TagNames;
 
 @Component("recordServiceImpl")
 public class RecordServiceImpl implements RecordService {
@@ -31,17 +32,40 @@ public class RecordServiceImpl implements RecordService {
     }
 
     public final List<Record> getTopRecords() {
-        List<Record> response = recordDao.getTopRecords(20);
+        List<Record> response = recordDao.getTop(20);
         return response;
+    }
+
+    public final Long getDateOfLastInsertedRecord() {
+
+        return recordDao.getDateOfLastInsertedRecord();
+    }
+
+    public final List<Record> getAllRecords() {
+
+        return recordDao.getAll();
+    }
+
+    public final void deleteRecord(long id) {
+
+        recordDao.delete(id);
+    }
+
+    public final void updateRecord(Record rec) {
+        recordDao.update(rec);
+    }
+
+    public final Record getRecord(Long id) {
+        return recordDao.get(id);
     }
 
     public final void insertRecord(final Record record)
             throws IllegalArgumentException, IOException {
 
         record.setTags(addTagsToRecord(record.getTags(),
-                tagDao.getTagsFromMessage(record.getMessage())));
+                tagDao.getFromMessage(record.getMessage())));
         record.setMessage(cutString(160, record.getMessage()));
-        recordDao.saveRecord(record);
+        recordDao.save(record);
 
     }
 
@@ -64,11 +88,11 @@ public class RecordServiceImpl implements RecordService {
         return recordsTags;
     }
 
-    public final Set<Record> getRecordsByTagsName(Names tagsNames) {
+    public final Set<Record> getRecordsByTagNames(TagNames tagsNames) {
 
         Set<Record> records = new HashSet<Record>();
         for (String tagsName : tagsNames.getNames()) {
-            records.addAll(tagDao.getTagByName(tagsName).getRecords());
+            records.addAll(tagDao.getByName(tagsName).getRecords());
         }
 
         return records;
@@ -76,7 +100,7 @@ public class RecordServiceImpl implements RecordService {
 
     public final List<Tag> getTopTags() {
 
-        List<Tag> tags = tagDao.getAllTags();
+        List<Tag> tags = tagDao.getAll();
         qSort(tags, 0, tags.size() - 1);
         Collections.reverse(tags);
         if (tags.size() <= 20) {
@@ -118,24 +142,4 @@ public class RecordServiceImpl implements RecordService {
             }
         }
     }
-
-    public final Long getLastDateOfCreate() {
-
-        return recordDao.getLastDateOfCreate();
-    }
-
-    public final List<Record> getAllRecords() {
-
-        return recordDao.getAllRecords();
-    }
-
-    public final void delete(long id) {
-
-        recordDao.delete(id);
-    }
-
-    public final void updateRecord(Record rec) {
-        recordDao.updateRecord(rec);
-    }
-
 }

@@ -29,8 +29,11 @@ public class Record implements Serializable {
     @Column(name = "userName")
     private String userName;
 
-    @Column(name = "sourceUrl" , unique = true)
+    @Column(name = "sourceUrl", unique = true)
     private String sourceUrl;
+
+    @Column(name = "source")
+    private String source;
 
     @Column(name = "userProfileUrl")
     private String userProfileUrl;
@@ -126,13 +129,20 @@ public class Record implements Serializable {
         this.dateOfCreate = dateOfCreate;
     }
 
-    public Record(long id, String userName, String sourceUrl,
+    public final void setSource(String source) {
+        this.source = source;
+    }
+    public final String getSource() {
+        return this.source;
+    }
+    public Record(long id, String userName, String sourceUrl, String source,
             String userProfileUrl, String userPhotoUrl, String message,
             String recordPhotoUrl, Long dateOfCreate) {
 
         this.id = id;
         this.userName = userName;
         this.sourceUrl = sourceUrl;
+        this.source = source;
         this.userProfileUrl = userProfileUrl;
         this.userPhotoUrl = userPhotoUrl;
         this.message = message;
@@ -175,7 +185,7 @@ public class Record implements Serializable {
         if (id == 0) {
             if (other.id != 0) {
                 return false;
-                }
+            }
         } else if (id != other.id) {
             return false;
         }

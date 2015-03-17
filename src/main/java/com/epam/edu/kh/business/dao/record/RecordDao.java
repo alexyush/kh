@@ -4,15 +4,19 @@ import java.util.List;
 import com.epam.edu.kh.business.entity.Record;
 
 public interface RecordDao {
-    void saveRecord(Record record);
 
-    List<Record> getTopRecords(int count);
+    void save(Record record);
 
-    void delete(long id);
+    void update(Record rec);
 
-    List<Record> getAllRecords();
+    void delete(Long id);
 
-    void updateRecord(Record rec);
+    Long getDateOfLastInsertedRecord();
 
-    Long getLastDateOfCreate();
+    Record get(Long id);
+
+    List<Record> getTop(int count);
+
+    List<Record> getAll();
+
 }
