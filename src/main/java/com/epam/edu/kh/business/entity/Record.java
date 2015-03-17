@@ -19,9 +19,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "Record")
 public class Record implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -6191213098841148229L;
 
     @Id
@@ -32,8 +29,11 @@ public class Record implements Serializable {
     @Column(name = "userName")
     private String userName;
 
-    @Column(name = "sourceUrl")
+    @Column(name = "sourceUrl", unique = true)
     private String sourceUrl;
+
+    @Column(name = "source")
+    private String source;
 
     @Column(name = "userProfileUrl")
     private String userProfileUrl;
@@ -47,9 +47,14 @@ public class Record implements Serializable {
     @Column(name = "recordPhotoUrl")
     private String recordPhotoUrl;
 
+    @Column(name = "dateOfCreate")
+    private Long dateOfCreate;
+
     @JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "tags_records", joinColumns = @JoinColumn(name = "record_Id"), inverseJoinColumns = @JoinColumn(name = "tag_Id"))
+    @JoinTable(name = "tags_records",
+    joinColumns = @JoinColumn(name = "record_Id"),
+    inverseJoinColumns = @JoinColumn(name = "tag_Id"))
     private Set<Tag> tags = new HashSet<Tag>();
 
     public final Set<Tag> getTags() {
@@ -116,17 +121,33 @@ public class Record implements Serializable {
         this.recordPhotoUrl = recordPhotoUrl;
     }
 
-    public Record(long id, String userName, String sourceUrl,
+    public final Long getDateOfCreate() {
+        return dateOfCreate;
+    }
+
+    public final void setDateOfCreate(Long dateOfCreate) {
+        this.dateOfCreate = dateOfCreate;
+    }
+
+    public final void setSource(String source) {
+        this.source = source;
+    }
+    public final String getSource() {
+        return this.source;
+    }
+    public Record(long id, String userName, String sourceUrl, String source,
             String userProfileUrl, String userPhotoUrl, String message,
-            String recordPhotoUrl) {
+            String recordPhotoUrl, Long dateOfCreate) {
 
         this.id = id;
         this.userName = userName;
         this.sourceUrl = sourceUrl;
+        this.source = source;
         this.userProfileUrl = userProfileUrl;
         this.userPhotoUrl = userPhotoUrl;
         this.message = message;
         this.recordPhotoUrl = recordPhotoUrl;
+        this.dateOfCreate = dateOfCreate;
     }
 
     @Override
@@ -150,17 +171,21 @@ public class Record implements Serializable {
 
     @Override
     public final boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Record other = (Record) obj;
 
         if (id == 0) {
-            if (other.id != 0)
+            if (other.id != 0) {
                 return false;
+            }
         } else if (id != other.id) {
             return false;
         }
@@ -176,5 +201,4 @@ public class Record implements Serializable {
 
     public Record() {
     }
-
 }

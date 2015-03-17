@@ -12,7 +12,7 @@ angular.module('testApp')
       template: '<div class="tile">' + 
       			'<div class="head">' + 
               '<a href="{{data.sourceUrl}}" target="_blank">{{data.userName}}</a>' +
-              '<img class="social" ng-src="images/{{data.source}}.png"/></div>' +
+              '<img class="social" ng-src="/kh/resources/images/{{data.source}}.png"/></div>' +
             '<div class="content">' + 
               '<img class="usr img-circle" ng-src="{{data.userPhotoUrl}}"/>' +
       				'<p class="msg">{{data.message}}</p>' +
