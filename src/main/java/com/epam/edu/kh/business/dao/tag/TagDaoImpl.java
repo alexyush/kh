@@ -66,7 +66,7 @@ public class TagDaoImpl implements TagDao {
         }
         return tags;
     }
-    @Transactional
+    //@Transactional
     public final Tag insert(String tagName) {
 
         Tag tag = new Tag(1, tagName);

@@ -77,189 +77,85 @@ public class SocialReaderVK implements SocialReader {
         return response;
     }
 
-    public final String getResponseForUpdateRecord(String sourceUrl)
-            throws ClientProtocolException, IOException {
-
-        int index = "http://vk.com/wall".length();
-        String response = "";
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        try {
-            HttpGet httpget = new HttpGet(
-                    "http://api.vk.com/method/wall.getById?posts="
-                            + sourceUrl.substring(index) + "&extended=1&");
-
-            ResponseHandler<String> respHand = new ResponseHandler<String>() {
-
-                public String handleResponse(final HttpResponse response)
-                        throws ClientProtocolException, IOException {
-                    int status = response.getStatusLine().getStatusCode();
-                    if (status >= 200 && status < 300) {
-                        HttpEntity entity = response.getEntity();
-                        return entity != null ? EntityUtils.toString(entity)
-                                : null;
-                    } else {
-                        throw new ClientProtocolException(
-                                "Unexpected response status: " + status);
-                    }
-                }
-            };
-            response = httpclient.execute(httpget, respHand);
-        } finally {
-            httpclient.close();
-        }
-        return response;
-    }
-
-    public final List<Record> getNewRecordsByTag(String tag)
-            throws ClientProtocolException, IOException {
+    public final List<Record> getNewRecordsByTag(String tag) {
 
         List<Record> newRecords = new ArrayList<Record>();
 
-        byte[] jsonData = getResponseForAddNewRecordsByTag(tag).getBytes(
-                Charset.forName("UTF-8"));
+        byte[] jsonData;
+        try {
+            jsonData = getResponseForAddNewRecordsByTag(tag).getBytes(
+                    Charset.forName("UTF-8"));
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = objectMapper.readTree(jsonData);
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode;
 
-        if (rootNode.get("response").size() != 0) {
-            Iterator<JsonNode> elementsOfResponse = rootNode.get("response")
-                    .elements();
-            JsonNode element = elementsOfResponse.next();
-            while (elementsOfResponse.hasNext()) {
+            rootNode = objectMapper.readTree(jsonData);
 
-                String name = "";
-                String userProfileUrl = "";
-                String sourceUrl = "";
-                String profilePhotoUrl = "";
-                String recordPhotoUrl = "";
-                String message = "";
-                Long date;
+            if (rootNode.get("response").size() != 0) {
+                Iterator<JsonNode> elementsOfResponse = rootNode
+                        .get("response").elements();
+                JsonNode element = elementsOfResponse.next();
+                while (elementsOfResponse.hasNext()) {
 
-                element = elementsOfResponse.next();
-                date = element.path("date").asLong();
-                if (element.path("user").findValue("first_name") != null) {
+                    String name = "";
+                    String userProfileUrl = "";
+                    String sourceUrl = "";
+                    String profilePhotoUrl = "";
+                    String recordPhotoUrl = "";
+                    String message = "";
+                    Long date;
 
-                    name = element.path("user").findValue("first_name")
-                            .asText()
-                            + " ";
-                    name = name.concat(element.path("user")
-                            .findValue("last_name").asText());
-                    userProfileUrl = "http://vk.com/"
-                            + element.path("user").findValue("screen_name")
-                                    .asText();
-                    profilePhotoUrl = element.path("user")
-                            .findValue("photo_medium_rec").asText();
-                } else {
-                    name = element.path("group").findValue("name").asText();
-                    userProfileUrl = "http://vk.com/"
-                            + element.path("group").findValue("screen_name")
-                                    .asText();
-                    profilePhotoUrl = element.path("group")
-                            .findValue("photo_medium").asText();
-                }
-                sourceUrl = "http://vk.com/wall"
-                        + element.findValue("owner_id") + "_"
-                        + element.findValue("id");
+                    element = elementsOfResponse.next();
+                    date = element.path("date").asLong();
+                    if (element.path("user").findValue("first_name") != null) {
 
-                if (element.get("attachment") != null) {
-                    if (element.get("attachment").get("photo") != null) {
-                        recordPhotoUrl = element.get("attachment").get("photo")
-                                .get("src_big").asText();
+                        name = element.path("user").findValue("first_name")
+                                .asText()
+                                + " ";
+                        name = name.concat(element.path("user")
+                                .findValue("last_name").asText());
+                        userProfileUrl = "http://vk.com/"
+                                + element.path("user").findValue("screen_name")
+                                        .asText();
+                        profilePhotoUrl = element.path("user")
+                                .findValue("photo_medium_rec").asText();
+                    } else {
+                        name = element.path("group").findValue("name").asText();
+                        userProfileUrl = "http://vk.com/"
+                                + element.path("group")
+                                        .findValue("screen_name").asText();
+                        profilePhotoUrl = element.path("group")
+                                .findValue("photo_medium").asText();
                     }
+                    sourceUrl = "http://vk.com/wall"
+                            + element.findValue("owner_id") + "_"
+                            + element.findValue("id");
+
+                    if (element.get("attachment") != null) {
+                        if (element.get("attachment").get("photo") != null) {
+                            recordPhotoUrl = element.get("attachment")
+                                    .get("photo").get("src_big").asText();
+                        }
+                    }
+                    if (element.get("post_type").asText().equals("post")) {
+                        message = element.get("text").asText();
+                    } else {
+                        message = element.get("copy_text").asText();
+                    }
+                    newRecords.add(new Record(1, name, sourceUrl, "vk",
+                            userProfileUrl, profilePhotoUrl, message,
+                            recordPhotoUrl, date));
                 }
-                if (element.get("post_type").asText().equals("post")) {
-                    message = element.get("text").asText();
-                } else {
-                    message = element.get("copy_text").asText();
-                }
-                newRecords.add(new Record(1, name, sourceUrl, "vk",
-                        userProfileUrl, profilePhotoUrl, message,
-                        recordPhotoUrl, date));
             }
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         System.out.println("Count of new records:" + newRecords.size());
         return newRecords;
     }
 
-    public final void getAndSaveNewRecordsByTag(String tag) {
-
-        List<Record> newRecords;
-        try {
-            newRecords = getNewRecordsByTag(tag);
-            Iterator<Record> newRecordsIt = newRecords.iterator();
-            while (newRecordsIt.hasNext()) {
-                recordService.insertRecord(newRecordsIt.next());
-            }
-        } catch (ClientProtocolException e1) {
-            System.out.println("in getAndSaveNewRecordsByTag:" + e1);
-        } catch (IOException e1) {
-            System.out.println("in getAndSaveNewRecordsByTag:" + e1);
-        }
-
-    }
-
-    public final void updatesAllRecords() {
-
-        Iterator<Record> recIt = recordService.getAllRecords().iterator();
-        Record currentrec;
-        while (recIt.hasNext()) {
-            currentrec = recIt.next();
-            try {
-                updateCurrentRecord(currentrec.getId());
-            } catch (JsonProcessingException e) {
-                System.out.println(e);
-            } catch (ClientProtocolException e) {
-                System.out.println(e);
-            } catch (IOException e) {
-                System.out.println(e);
-            }
-        }
-
-    }
-
-    public final void updateCurrentRecord(Long recordId)
-            throws JsonProcessingException, ClientProtocolException,
-            IOException {
-        Record record = recordService.getRecord(recordId);
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode rootNode = objectMapper
-                    .readTree(getResponseForUpdateRecord(record.getSourceUrl()));
-
-            JsonNode wall = rootNode.get("response").get("wall");
-            JsonNode insideWall = rootNode.get("response").get("wall").get(0);
-            String message = "";
-            String recordPhotoUrl = "";
-
-            if (wall.findValue("copy_text") != null
-                    && wall.findValue("copy_text").asText()
-                            .contains("#ДобраеСэрца")) {
-
-                message = rootNode.get("response").get("wall")
-                        .findValue("copy_text").asText();
-
-            } else if (wall.findValue("text").asText().contains("#ДобраеСэрца")) {
-                message = rootNode.get("response").get("wall")
-                        .findValue("text").asText();
-            } else {
-                throw new NullPointerException("Tag kind-heart are lost");
-            }
-            if (insideWall != null) {
-                if (insideWall.get("attachment") != null) {
-                    recordPhotoUrl = insideWall.get("attachment")
-                            .findValue("src_big").asText();
-                }
-            }
-            record.setMessage(message);
-            record.setRecordPhotoUrl(recordPhotoUrl);
-            recordService.updateRecord(record);
-        } catch (NullPointerException e) {
-            System.out.println(e);
-            recordService.deleteRecord(record.getId());
-        } catch (JsonProcessingException e) {
-            System.out.println(e);
-        } catch (ClientProtocolException e) {
-            System.out.println(e);
-        }
-    }
 }

@@ -1,6 +1,5 @@
 package com.epam.edu.kh.business.service.record;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -59,8 +58,7 @@ public class RecordServiceImpl implements RecordService {
         return recordDao.get(id);
     }
 
-    public final void insertRecord(final Record record)
-            throws IllegalArgumentException, IOException {
+    public final void insertRecord(final Record record) {
 
         record.setTags(addTagsToRecord(record.getTags(),
                 tagDao.getFromMessage(record.getMessage())));

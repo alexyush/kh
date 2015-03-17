@@ -15,10 +15,4 @@ public class ScheduledJob {
     public final void getNewRecords() {
         socialService.searchForNewRecords();
     }
-
-    @Scheduled(fixedDelay = 200000)
-    public final void updateRecords() {
-        socialService.updateRecords();
-    }
-
 }
