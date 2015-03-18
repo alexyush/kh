@@ -42,13 +42,9 @@ public class TagDaoImpl implements TagDao {
         Tag tag = (Tag) sessionFactory.getCurrentSession()
                 .createQuery("from Tag u where u.name=:name")
                 .setParameter("name", name).uniqueResult();
-
-        if (tag == null) {
-            throw new NullPointerException("this tag is null");
-        } else {
-            return tag;
-        }
+        return tag;
     }
+
     @Transactional
     public final Set<Tag> getFromMessage(String message) {
 
@@ -66,19 +62,13 @@ public class TagDaoImpl implements TagDao {
         }
         return tags;
     }
-    //@Transactional
+
     public final Tag insert(String tagName) {
 
-        Tag tag = new Tag(1, tagName);
-        try {
-            Tag tagForCompare = getByName(tagName);
-            if (tagName.equals(tagForCompare.getName())) {
-                return tagForCompare;
-            } else {
-                save(tag);
-                return tag;
-            }
-        } catch (NullPointerException ex) {
+        if (getByName(tagName) != null) {
+            return getByName(tagName);
+        } else {
+            Tag tag = new Tag(1, tagName);
             save(tag);
             return tag;
         }

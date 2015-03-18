@@ -8,6 +8,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.edu.kh.business.dao.record.RecordDao;
 import com.epam.edu.kh.business.dao.tag.TagDao;
@@ -57,11 +58,10 @@ public class RecordServiceImpl implements RecordService {
     public final Record getRecord(Long id) {
         return recordDao.get(id);
     }
-
+    @Transactional
     public final void insertRecord(final Record record) {
 
-        record.setTags(addTagsToRecord(record.getTags(),
-                tagDao.getFromMessage(record.getMessage())));
+        record.getTags().addAll(tagDao.getFromMessage(record.getMessage()));
         record.setMessage(cutString(160, record.getMessage()));
         recordDao.save(record);
 
@@ -76,14 +76,6 @@ public class RecordServiceImpl implements RecordService {
         }
         newString = newString.concat("...");
         return newString;
-    }
-
-    private Set<Tag> addTagsToRecord(Set<Tag> recordsTags, Set<Tag> tags) {
-
-        for (Tag tag : tags) {
-            recordsTags.add(tag);
-        }
-        return recordsTags;
     }
 
     public final Set<Record> getRecordsByTagNames(TagNames tagsNames) {

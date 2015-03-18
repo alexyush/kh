@@ -55,16 +55,10 @@ public class RecordDaoImpl implements RecordDao {
     @Transactional
     public final Long getDateOfLastInsertedRecord() {
 
-        Long dateOfCreate;
         Criteria criteria = sessionFactory.getCurrentSession()
                 .createCriteria(Record.class)
                 .setProjection(Projections.max("dateOfCreate"));
-        dateOfCreate = (Long) criteria.uniqueResult();
-        if (dateOfCreate == null) {
-            throw new NullPointerException("Vot tut u tebya null");
-        } else {
-            return dateOfCreate;
-        }
+            return (Long) criteria.uniqueResult();
     }
     @Transactional
     public final Record get(Long id) {

@@ -39,12 +39,13 @@ public class SocialReaderVK implements SocialReader {
             throws ClientProtocolException, IOException {
 
         String startTime;
-        try {
+        Long dateOfLastInsertedRecord = recordService
+                .getDateOfLastInsertedRecord();
+        if (dateOfLastInsertedRecord != null) {
 
-            startTime = String.valueOf(recordService
-                    .getDateOfLastInsertedRecord() + 1);
+            startTime = String.valueOf(dateOfLastInsertedRecord + 1);
 
-        } catch (NullPointerException ex) {
+        } else {
             startTime = "";
         }
 
@@ -91,7 +92,7 @@ public class SocialReaderVK implements SocialReader {
 
             rootNode = objectMapper.readTree(jsonData);
 
-            if (rootNode.get("response").size() != 0) {
+            if (rootNode.get("response") != null) {
                 Iterator<JsonNode> elementsOfResponse = rootNode
                         .get("response").elements();
                 JsonNode element = elementsOfResponse.next();
