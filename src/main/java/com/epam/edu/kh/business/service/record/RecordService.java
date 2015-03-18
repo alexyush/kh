@@ -13,7 +13,7 @@ public interface RecordService {
 
     void deleteRecord(long id);
 
-    void updateRecord(Record rec);
+    void updateRecord(Record record);
 
     Long getDateOfLastInsertedRecord();
 
@@ -27,4 +27,5 @@ public interface RecordService {
 
     Set<Record> getRecordsByTagNames(TagNames tagsNames);
 
+    void saveBatch(List<Record> newRecords);
 }

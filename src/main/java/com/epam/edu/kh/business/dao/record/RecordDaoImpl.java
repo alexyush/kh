@@ -14,10 +14,6 @@ import com.epam.edu.kh.business.entity.Record;
 @Component("recordDaoImpl")
 public class RecordDaoImpl implements RecordDao {
 
-    public RecordDaoImpl() {
-
-    }
-
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -28,13 +24,13 @@ public class RecordDaoImpl implements RecordDao {
 
     @Transactional
     @SuppressWarnings("unchecked")
-    public final List<Record> getTop(int count) {
+    public final List<Record> getTop(final int count) {
         return sessionFactory.getCurrentSession().createQuery("from Record")
                 .setMaxResults(count).list();
     }
 
     @Transactional
-    public final void delete(Long id) {
+    public final void delete(final Long id) {
         sessionFactory.getCurrentSession()
                 .createQuery("delete from Record u where u.id=:id")
                 .setParameter("id", id).executeUpdate();
@@ -48,8 +44,8 @@ public class RecordDaoImpl implements RecordDao {
     }
 
     @Transactional
-    public final void update(final Record rec) {
-        sessionFactory.getCurrentSession().merge(rec);
+    public final void update(final Record record) {
+        sessionFactory.getCurrentSession().merge(record);
     }
 
     @Transactional
@@ -61,7 +57,7 @@ public class RecordDaoImpl implements RecordDao {
             return (Long) criteria.uniqueResult();
     }
     @Transactional
-    public final Record get(Long id) {
+    public final Record get(final Long id) {
         return (Record) sessionFactory.getCurrentSession()
                 .get(Record.class, id);
     }

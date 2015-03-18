@@ -1,11 +1,7 @@
-package com.epam.edu.kh.business.social.service;
-
-import java.util.Iterator;
-import java.util.List;
+package com.epam.edu.kh.business.social.service; 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-import com.epam.edu.kh.business.entity.Record;
+import org.springframework.stereotype.Component; 
 import com.epam.edu.kh.business.service.record.RecordService;
 import com.epam.edu.kh.business.social.reader.SocialReader;
 
@@ -14,7 +10,11 @@ public class SocialService {
 
     @Autowired
     @Qualifier("socialReaderVk")
-    private SocialReader socialReader;
+    private SocialReader socialReaderVk;
+    
+    @Autowired
+    @Qualifier("socialReaderTwitter")
+    private SocialReader socialReaderTw;
 
     @Autowired
     @Qualifier("recordServiceImpl")
@@ -22,14 +22,7 @@ public class SocialService {
 
     public final void searchForNewRecords() {
 
-        List<Record> newRecords;
-        
-            newRecords = socialReader.getNewRecordsByTag("ДобраеСэрца");
-            Iterator<Record> newRecordsIt = newRecords.iterator();
-            while (newRecordsIt.hasNext()) {
-                    recordService.insertRecord(newRecordsIt.next());
-            }
-
-
+            recordService.saveBatch(socialReaderVk.getNewRecordsByTag());
+            recordService.saveBatch(socialReaderTw.getNewRecordsByTag());
     }
 }

@@ -27,10 +27,6 @@ public class RecordServiceImpl implements RecordService {
     @Qualifier("tagDaoImpl")
     private TagDao tagDao;
 
-    public RecordServiceImpl() {
-
-    }
-
     public final List<Record> getTopRecords() {
         List<Record> response = recordDao.getTop(20);
         return response;
@@ -51,18 +47,19 @@ public class RecordServiceImpl implements RecordService {
         recordDao.delete(id);
     }
 
-    public final void updateRecord(Record rec) {
-        recordDao.update(rec);
+    public final void updateRecord(Record record) {
+        recordDao.update(record);
     }
 
     public final Record getRecord(Long id) {
         return recordDao.get(id);
     }
+
     @Transactional
     public final void insertRecord(final Record record) {
 
         record.getTags().addAll(tagDao.getFromMessage(record.getMessage()));
-        record.setMessage(cutString(160, record.getMessage()));
+        record.setMessage(cutString(250, record.getMessage()));
         recordDao.save(record);
 
     }
@@ -130,6 +127,14 @@ public class RecordServiceImpl implements RecordService {
             if (i < end) {
                 qSort(tags, i, end);
             }
+        }
+    }
+
+    @Transactional
+    public void saveBatch(List<Record> newRecords) {
+
+        for(Record newRecord:newRecords) {
+            insertRecord(newRecord);
         }
     }
 }

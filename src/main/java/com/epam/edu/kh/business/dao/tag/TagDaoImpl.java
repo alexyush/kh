@@ -12,10 +12,6 @@ import com.epam.edu.kh.business.entity.Tag;
 @Component("tagDaoImpl")
 public class TagDaoImpl implements TagDao {
 
-    public TagDaoImpl() {
-
-    }
-
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -37,18 +33,18 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Transactional
-    public final Tag getByName(String name) {
+    public final Tag getByName(final String tagName) {
 
         Tag tag = (Tag) sessionFactory.getCurrentSession()
                 .createQuery("from Tag u where u.name=:name")
-                .setParameter("name", name).uniqueResult();
+                .setParameter("name", tagName).uniqueResult();
         return tag;
     }
 
     @Transactional
-    public final Set<Tag> getFromMessage(String message) {
+    public final Set<Tag> getFromMessage(final String recordMessage) {
 
-        String[] hashTags = message.split(" ");
+        String[] hashTags = recordMessage.split(" ");
         Set<String> uniqueHashTags = new HashSet<String>();
 
         for (String tag : hashTags) {
@@ -63,7 +59,7 @@ public class TagDaoImpl implements TagDao {
         return tags;
     }
 
-    public final Tag insert(String tagName) {
+    public final Tag insert(final String tagName) {
 
         if (getByName(tagName) != null) {
             return getByName(tagName);

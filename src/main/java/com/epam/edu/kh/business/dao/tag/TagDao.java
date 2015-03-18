@@ -11,10 +11,10 @@ public interface TagDao {
 
     Tag insert(String tagName);
 
-    Tag getByName(String name);
+    Tag getByName(String tagName);
 
     List<Tag> getAll();
 
-    Set<Tag> getFromMessage(String message);
+    Set<Tag> getFromMessage(String recordMessage);
 
 }

@@ -29,6 +29,14 @@ public class Tag implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "tags")
     private Set<Record> records = new HashSet<Record>();
 
+    public Tag() {
+    }
+
+    public Tag(int id, String value) {
+        this.id = id;
+        this.name = value;
+    }
+
     public final Set<Record> getRecords() {
         return this.records;
     }
@@ -53,12 +61,4 @@ public class Tag implements Serializable {
         this.id = id;
     }
 
-    public Tag() {
-
-    }
-
-    public Tag(int id, String value) {
-        this.id = id;
-        this.name = value;
-    }
 }

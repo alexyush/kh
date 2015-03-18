@@ -14,8 +14,11 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.epam.edu.kh.business.entity.Record;
@@ -31,24 +34,26 @@ public class SocialReaderVK implements SocialReader {
     @Qualifier("recordServiceImpl")
     private RecordService recordService;
 
-    public SocialReaderVK() {
+    @Autowired 
+    private SocialReaderTwitter socialReadertw;
 
-    }
+    @Value("${tag}")
+    private String tag;
 
-    private String getResponseForAddNewRecordsByTag(String tag)
+    private static final Logger log = LoggerFactory.getLogger(SocialReaderVK.class);
+
+    private String getResponseForAddNewRecordsByTag()
             throws ClientProtocolException, IOException {
 
         String startTime;
         Long dateOfLastInsertedRecord = recordService
                 .getDateOfLastInsertedRecord();
         if (dateOfLastInsertedRecord != null) {
-
             startTime = String.valueOf(dateOfLastInsertedRecord + 1);
-
         } else {
             startTime = "";
         }
-
+         
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String response = "";
         try {
@@ -78,13 +83,13 @@ public class SocialReaderVK implements SocialReader {
         return response;
     }
 
-    public final List<Record> getNewRecordsByTag(String tag) {
+    public final List<Record> getNewRecordsByTag() {
 
         List<Record> newRecords = new ArrayList<Record>();
 
         byte[] jsonData;
         try {
-            jsonData = getResponseForAddNewRecordsByTag(tag).getBytes(
+            jsonData = getResponseForAddNewRecordsByTag().getBytes(
                     Charset.forName("UTF-8"));
 
             ObjectMapper objectMapper = new ObjectMapper();
@@ -140,7 +145,7 @@ public class SocialReaderVK implements SocialReader {
                     }
                     if (element.get("post_type").asText().equals("post")) {
                         message = element.get("text").asText();
-                    } else {
+                    } else if (element.get("copy_text") != null){
                         message = element.get("copy_text").asText();
                     }
                     newRecords.add(new Record(1, name, sourceUrl, "vk",
@@ -149,13 +154,15 @@ public class SocialReaderVK implements SocialReader {
                 }
             }
         } catch (ClientProtocolException e) {
-            e.printStackTrace();
+            log.error(e.toString());
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.error(e.toString());
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Count of new records:" + newRecords.size());
+            log.error(e.toString());
+        } catch (Exception e) {
+            log.error(e.toString());
+        } 
+        log.info("Count of new records:" + newRecords.size());
         return newRecords;
     }
 

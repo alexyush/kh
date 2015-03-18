@@ -29,7 +29,7 @@ public class Record implements Serializable {
     @Column(name = "userName")
     private String userName;
 
-    @Column(name = "sourceUrl", unique = true)
+    @Column(name = "sourceUrl")
     private String sourceUrl;
 
     @Column(name = "source")
@@ -56,6 +56,21 @@ public class Record implements Serializable {
     joinColumns = @JoinColumn(name = "record_Id"),
     inverseJoinColumns = @JoinColumn(name = "tag_Id"))
     private Set<Tag> tags = new HashSet<Tag>();
+
+    public Record(long id, String userName, String sourceUrl, String source,
+            String userProfileUrl, String userPhotoUrl, String message,
+            String recordPhotoUrl, Long dateOfCreate) {
+
+        this.id = id;
+        this.userName = userName;
+        this.sourceUrl = sourceUrl;
+        this.source = source;
+        this.userProfileUrl = userProfileUrl;
+        this.userPhotoUrl = userPhotoUrl;
+        this.message = message;
+        this.recordPhotoUrl = recordPhotoUrl;
+        this.dateOfCreate = dateOfCreate;
+    }
 
     public final Set<Tag> getTags() {
         return this.tags;
@@ -134,20 +149,6 @@ public class Record implements Serializable {
     }
     public final String getSource() {
         return this.source;
-    }
-    public Record(long id, String userName, String sourceUrl, String source,
-            String userProfileUrl, String userPhotoUrl, String message,
-            String recordPhotoUrl, Long dateOfCreate) {
-
-        this.id = id;
-        this.userName = userName;
-        this.sourceUrl = sourceUrl;
-        this.source = source;
-        this.userProfileUrl = userProfileUrl;
-        this.userPhotoUrl = userPhotoUrl;
-        this.message = message;
-        this.recordPhotoUrl = recordPhotoUrl;
-        this.dateOfCreate = dateOfCreate;
     }
 
     @Override

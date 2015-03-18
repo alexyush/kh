@@ -7,7 +7,7 @@ public interface RecordDao {
 
     void save(Record record);
 
-    void update(Record rec);
+    void update(Record record);
 
     void delete(Long id);
 
