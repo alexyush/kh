@@ -2,9 +2,7 @@ package com.epam.edu.kh.business.dao.record;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,22 +23,18 @@ public class RecordDaoImpl implements RecordDao {
     @Transactional
     @SuppressWarnings("unchecked")
     public final List<Record> getTop(final int count) {
-        return sessionFactory.getCurrentSession().createQuery("from Record")
-                .setMaxResults(count).list();
+        return sessionFactory.getCurrentSession().createQuery("from Record").setMaxResults(count).list();
     }
 
     @Transactional
     public final void delete(final Long id) {
-        sessionFactory.getCurrentSession()
-                .createQuery("delete from Record u where u.id=:id")
-                .setParameter("id", id).executeUpdate();
+        sessionFactory.getCurrentSession().createQuery("delete from Record u where u.id=:id").setParameter("id", id).executeUpdate();
     }
 
     @SuppressWarnings("unchecked")
     @Transactional
     public final List<Record> getAll() {
-        return sessionFactory.getCurrentSession().createQuery("from Record")
-                .list();
+        return sessionFactory.getCurrentSession().createQuery("from Record").list();
     }
 
     @Transactional
@@ -49,16 +43,15 @@ public class RecordDaoImpl implements RecordDao {
     }
 
     @Transactional
-    public final Long getDateOfLastInsertedRecord() {
+    public final Long getDateOfLastInsertedRecord(String source) {
 
-        Criteria criteria = sessionFactory.getCurrentSession()
-                .createCriteria(Record.class)
-                .setProjection(Projections.max("dateOfCreate"));
-            return (Long) criteria.uniqueResult();
+        Long date = (Long) sessionFactory.getCurrentSession().createQuery("select max(rec.dateOfCreate) from Record rec where rec.source=:source")
+                .setParameter("source", source).uniqueResult();
+        return date;
     }
+
     @Transactional
     public final Record get(final Long id) {
-        return (Record) sessionFactory.getCurrentSession()
-                .get(Record.class, id);
+        return (Record) sessionFactory.getCurrentSession().get(Record.class, id);
     }
 }

@@ -14,6 +14,6 @@ public class ScheduledJob {
     @Scheduled(fixedDelay = 100000)
     public final void getNewRecords() {
         socialService.searchForNewRecords();
-        
+
     }
 }

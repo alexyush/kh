@@ -10,6 +10,7 @@ public class TagNames {
     public final Set<String> getNames() {
         return this.names;
     }
+
     public final void setNames(final Set<String> names) {
         this.names = names;
     }

@@ -12,6 +12,30 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-facebook</artifactId>
+			<version>1.1.1.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-twitter</artifactId>
+			<version>1.1.0.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-web</artifactId>
+			<version>1.1.0.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.4</version>
@@ -138,9 +162,6 @@
 			<version>4.3.8.Final</version>
 		</dependency>
 
-		<!-- <dependency> <groupId>org.codehaus.mojo</groupId> <artifactId>findbugs-maven-plugin</artifactId> 
-			<version>3.0.0</version> </dependency> -->
-
 	</dependencies>
 
 	<build>
@@ -166,9 +187,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<configuration>
+				<configuration> 
+                    <configLocation>config/checkstyle_checks.xml</configLocation>
 					<suppressionsLocation>config/checkstyle_suppressions.xml</suppressionsLocation>
-					<!--<suppressionsLocation>config/checkstyle_checks.xml</suppressionsLocation>-->
 					<violationSeverity>warning</violationSeverity>
 					<failOnViolation>true</failOnViolation>
 				</configuration>

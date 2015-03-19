@@ -1,6 +1,7 @@
 package com.epam.edu.kh.business.dao.record;
 
 import java.util.List;
+
 import com.epam.edu.kh.business.entity.Record;
 
 public interface RecordDao {
@@ -11,7 +12,7 @@ public interface RecordDao {
 
     void delete(Long id);
 
-    Long getDateOfLastInsertedRecord();
+    Long getDateOfLastInsertedRecord(String source);
 
     Record get(Long id);
 

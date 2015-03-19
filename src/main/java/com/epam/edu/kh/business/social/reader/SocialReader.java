@@ -5,6 +5,6 @@ import com.epam.edu.kh.business.entity.Record;
 
 public interface SocialReader {
 
-    List<Record> getNewRecordsByTag(); 
+    List<Record> getNewRecords(); 
 
 }

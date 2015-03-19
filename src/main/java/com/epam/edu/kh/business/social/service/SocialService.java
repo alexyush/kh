@@ -22,7 +22,7 @@ public class SocialService {
 
     public final void searchForNewRecords() {
 
-            recordService.saveBatch(socialReaderVk.getNewRecordsByTag());
-            recordService.saveBatch(socialReaderTw.getNewRecordsByTag());
+            recordService.saveBatch(socialReaderVk.getNewRecords());
+            recordService.saveBatch(socialReaderTw.getNewRecords());
     }
 }

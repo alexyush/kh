@@ -28,16 +28,13 @@ public class TagDaoImpl implements TagDao {
     @SuppressWarnings("unchecked")
     @Transactional
     public final List<Tag> getAll() {
-        return sessionFactory.getCurrentSession().createQuery("from Tag")
-                .list();
+        return sessionFactory.getCurrentSession().createQuery("from Tag").list();
     }
 
     @Transactional
     public final Tag getByName(final String tagName) {
 
-        Tag tag = (Tag) sessionFactory.getCurrentSession()
-                .createQuery("from Tag u where u.name=:name")
-                .setParameter("name", tagName).uniqueResult();
+        Tag tag = (Tag) sessionFactory.getCurrentSession().createQuery("from Tag u where u.name=:name").setParameter("name", tagName).uniqueResult();
         return tag;
     }
 

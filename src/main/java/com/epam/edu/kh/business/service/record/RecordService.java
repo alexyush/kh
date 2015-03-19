@@ -15,7 +15,7 @@ public interface RecordService {
 
     void updateRecord(Record record);
 
-    Long getDateOfLastInsertedRecord();
+    Long getDateOfLastInsertedRecord(String source);
 
     Record getRecord(Long id);
 

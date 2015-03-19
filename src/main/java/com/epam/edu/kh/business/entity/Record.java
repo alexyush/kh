@@ -52,13 +52,10 @@ public class Record implements Serializable {
 
     @JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "tags_records",
-    joinColumns = @JoinColumn(name = "record_Id"),
-    inverseJoinColumns = @JoinColumn(name = "tag_Id"))
+    @JoinTable(name = "tags_records", joinColumns = @JoinColumn(name = "record_Id"), inverseJoinColumns = @JoinColumn(name = "tag_Id"))
     private Set<Tag> tags = new HashSet<Tag>();
 
-    public Record(long id, String userName, String sourceUrl, String source,
-            String userProfileUrl, String userPhotoUrl, String message,
+    public Record(long id, String userName, String sourceUrl, String source, String userProfileUrl, String userPhotoUrl, String message,
             String recordPhotoUrl, Long dateOfCreate) {
 
         this.id = id;
@@ -147,6 +144,7 @@ public class Record implements Serializable {
     public final void setSource(String source) {
         this.source = source;
     }
+
     public final String getSource() {
         return this.source;
     }
@@ -157,16 +155,11 @@ public class Record implements Serializable {
         int result = 1;
         result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + ((message == null) ? 0 : message.hashCode());
-        result = prime * result
-                + ((recordPhotoUrl == null) ? 0 : recordPhotoUrl.hashCode());
-        result = prime * result
-                + ((sourceUrl == null) ? 0 : sourceUrl.hashCode());
-        result = prime * result
-                + ((userName == null) ? 0 : userName.hashCode());
-        result = prime * result
-                + ((userPhotoUrl == null) ? 0 : userPhotoUrl.hashCode());
-        result = prime * result
-                + ((userProfileUrl == null) ? 0 : userProfileUrl.hashCode());
+        result = prime * result + ((recordPhotoUrl == null) ? 0 : recordPhotoUrl.hashCode());
+        result = prime * result + ((sourceUrl == null) ? 0 : sourceUrl.hashCode());
+        result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+        result = prime * result + ((userPhotoUrl == null) ? 0 : userPhotoUrl.hashCode());
+        result = prime * result + ((userProfileUrl == null) ? 0 : userProfileUrl.hashCode());
         return result;
     }
 

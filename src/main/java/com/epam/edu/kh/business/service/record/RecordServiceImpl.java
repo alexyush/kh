@@ -29,12 +29,13 @@ public class RecordServiceImpl implements RecordService {
 
     public final List<Record> getTopRecords() {
         List<Record> response = recordDao.getTop(20);
+        Collections.reverse(response);
         return response;
     }
 
-    public final Long getDateOfLastInsertedRecord() {
+    public final Long getDateOfLastInsertedRecord(String source) {
 
-        return recordDao.getDateOfLastInsertedRecord();
+        return recordDao.getDateOfLastInsertedRecord(source);
     }
 
     public final List<Record> getAllRecords() {
@@ -62,6 +63,14 @@ public class RecordServiceImpl implements RecordService {
         record.setMessage(cutString(250, record.getMessage()));
         recordDao.save(record);
 
+    }
+
+    @Transactional
+    public void saveBatch(List<Record> newRecords) {
+
+        for (Record newRecord : newRecords) {
+            insertRecord(newRecord);
+        }
     }
 
     private String cutString(int i, String str) {
@@ -130,11 +139,4 @@ public class RecordServiceImpl implements RecordService {
         }
     }
 
-    @Transactional
-    public void saveBatch(List<Record> newRecords) {
-
-        for(Record newRecord:newRecords) {
-            insertRecord(newRecord);
-        }
-    }
 }
