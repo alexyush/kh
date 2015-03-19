@@ -85,7 +85,7 @@ public class SocialReaderVK implements SocialReader {
         String message = "";
         String user = "user";
         String group = "group";
-        String attacment = "attacment";
+        String attacment = "attachment";
         if (element.path(user).findValue("first_name") != null) {
 
             userName = element.path(user).findValue("first_name").asText() + " ";
@@ -138,7 +138,7 @@ public class SocialReaderVK implements SocialReader {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String response = "";
         try {
-            HttpGet httpget = new HttpGet("https://ai.vk.com/method/newsfeed.search" + "?q=%23" + tag + "&extended=1" + "&start_time="
+            HttpGet httpget = new HttpGet("https://api.vk.com/method/newsfeed.search" + "?q=%23" + tag + "&extended=1" + "&start_time="
                     + dateOfLastInsertedRecord);
 
             ResponseHandler<String> respHand = new ResponseHandler<String>() {
