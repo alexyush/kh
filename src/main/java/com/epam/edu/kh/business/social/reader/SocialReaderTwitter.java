@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
-import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.social.twitter.api.impl.TwitterTemplate;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +14,9 @@ import com.epam.edu.kh.business.entity.Record;
 
 @Component
 public class SocialReaderTwitter implements SocialReader {
+
+    @Value("${value}")
+    private String tag;
 
     @Value("${consumerKey}")
     private String consumerKey;
@@ -35,26 +37,26 @@ public class SocialReaderTwitter implements SocialReader {
 
         List<Record> recordsFromTwitter = new ArrayList<Record>();
 
-        SearchResults results = twitter.searchOperations().search(
-                "#ДобраеСэрца");
-        
-        
-
+        SearchResults results = twitter.searchOperations().search(tag); 
         System.out.println("Count of tweets:" + results.getTweets().size());
-
         for (Tweet tw : results.getTweets()) {
 
-            System.out.println("get id:"+tw.getId());
-            System.out.println("get from user:"+tw.getFromUser());
-            System.out.println("get created at:"+(tw.getCreatedAt())); 
-            System.out.println("has media:"+tw.hasMedia());
-            System.out.println("get source:"+tw.getSource()); 
-            System.out.println("get tags:"+tw.hasTags());
-            System.out.println("************");
+            String userName = "";
+            String userProfileUrl = "";
+            String sourceUrl = "";
+            String userPhotoUrl = "";
 
-            recordsFromTwitter.add(new Record(1, tw.getFromUser(),"",
-                    "twitter", "", tw.getProfileImageUrl(), tw.getText(), "",
-                    new Long(1)));
+            userName = "@" + tw.getFromUser();
+            userProfileUrl = "https://twitter.com/" + tw.getFromUser();
+
+            sourceUrl = "https://twitter.com/" + tw.getFromUser() + "/status/"
+                    + tw.getId();
+            Long numberOfUniqueIndex = tw.getId();
+            userPhotoUrl = tw.getProfileImageUrl();
+
+            recordsFromTwitter.add(new Record(1, userName, sourceUrl,
+                    "twitter", userProfileUrl, userPhotoUrl, tw.getText(),"",
+                    numberOfUniqueIndex));
         }
         return recordsFromTwitter;
     }

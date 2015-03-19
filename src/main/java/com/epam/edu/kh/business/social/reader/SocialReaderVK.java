@@ -34,10 +34,10 @@ public class SocialReaderVK implements SocialReader {
     @Qualifier("recordServiceImpl")
     private RecordService recordService;
 
-    @Autowired 
+    @Autowired
     private SocialReaderTwitter socialReadertw;
 
-    @Value("${tag}")
+    @Value("${value}")
     private String tag;
 
     private static final Logger log = LoggerFactory.getLogger(SocialReaderVK.class);
@@ -161,7 +161,7 @@ public class SocialReaderVK implements SocialReader {
             log.error(e.toString());
         } catch (Exception e) {
             log.error(e.toString());
-        } 
+        }
         log.info("Count of new records:" + newRecords.size());
         return newRecords;
     }
