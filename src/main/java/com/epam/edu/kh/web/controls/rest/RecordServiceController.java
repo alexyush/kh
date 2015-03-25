@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Qualifier; 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,16 +32,14 @@ public class RecordServiceController {
 
     @RequestMapping(value = "/records/tags", method = RequestMethod.POST)
     @ResponseBody
-    public final Set<Record> getRecordsByTagNames(@RequestBody TagNames tagNames) {
-
+    public final Set<Record> getRecordsByTagNames(@RequestBody final TagNames tagNames) {
+        
         return recordService.getRecordsByTagNames(tagNames);
     }
 
     @RequestMapping(value = "/records/toptags", method = RequestMethod.GET)
     @ResponseBody
     public final List<Tag> getTopTags() {
-
         return recordService.getTopTags();
-
     }
 }

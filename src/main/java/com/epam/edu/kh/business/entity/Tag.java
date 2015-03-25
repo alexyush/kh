@@ -32,8 +32,8 @@ public class Tag implements Serializable {
     public Tag() {
     }
 
-    public Tag(int id, String value) {
-        this.id = id;
+    public Tag(String value) {
+        this.id = 1;
         this.name = value;
     }
 

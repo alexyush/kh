@@ -7,9 +7,7 @@ import com.epam.edu.kh.business.entity.Record;
 import com.epam.edu.kh.business.entity.Tag;
 import com.epam.edu.kh.business.entity.TagNames;
 
-public interface RecordService {
-
-    void insertRecord(Record record);
+public interface RecordService { 
 
     void deleteRecord(long id);
 
@@ -27,5 +25,5 @@ public interface RecordService {
 
     Set<Record> getRecordsByTagNames(TagNames tagsNames);
 
-    void saveBatch(List<Record> newRecords);
+    void saveBatch(List<Record> newRecords); 
 }

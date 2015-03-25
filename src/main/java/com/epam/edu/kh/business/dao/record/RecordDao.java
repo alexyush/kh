@@ -20,4 +20,5 @@ public interface RecordDao {
 
     List<Record> getAll();
 
+    void insert(Record record);
 }

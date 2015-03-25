@@ -3,6 +3,7 @@ package com.epam.edu.kh.business.entity;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -42,6 +45,7 @@ public class Record implements Serializable {
     private String userPhotoUrl;
 
     @Column(name = "message")
+    @Lob
     private String message;
 
     @Column(name = "recordPhotoUrl")
@@ -55,10 +59,10 @@ public class Record implements Serializable {
     @JoinTable(name = "tags_records", joinColumns = @JoinColumn(name = "record_Id"), inverseJoinColumns = @JoinColumn(name = "tag_Id"))
     private Set<Tag> tags = new HashSet<Tag>();
 
-    public Record(long id, String userName, String sourceUrl, String source, String userProfileUrl, String userPhotoUrl, String message,
+    public Record(String userName, String sourceUrl, String source, String userProfileUrl, String userPhotoUrl, String message,
             String recordPhotoUrl, Long dateOfCreate) {
 
-        this.id = id;
+        this.id = 1;
         this.userName = userName;
         this.sourceUrl = sourceUrl;
         this.source = source;

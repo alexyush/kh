@@ -54,10 +54,8 @@ public class SocialReaderTwitter implements SocialReader {
     }
 
     public final List<Record> getNewRecords() {
-
-        Twitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);
-
         List<Record> recordsFromTw = new ArrayList<Record>();
+        Twitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret); 
         SearchResults results = twitter.searchOperations().search(tag);
         String dateOfLastInsertedRecordOfTw = getDateOfLastInsertedRecord();
 
@@ -95,7 +93,7 @@ public class SocialReaderTwitter implements SocialReader {
         Long dateOfCreate = Long.valueOf(tw.getCreatedAt().getTime()) / 1000L;
         userPhotoUrl = tw.getProfileImageUrl();
 
-        return new Record(1, userName, sourceUrl, "twitter", userProfileUrl, userPhotoUrl, tw.getText(), recordPhotoUrl, dateOfCreate);
+        return new Record(userName, sourceUrl, "twitter", userProfileUrl, userPhotoUrl, tw.getText(), recordPhotoUrl, dateOfCreate);
 
     }
 

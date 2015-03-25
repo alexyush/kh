@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.epam.edu.kh.business.dao.tag.TagDao;
 import com.epam.edu.kh.business.entity.Record;
 
 @Component("recordDaoImpl")
@@ -14,6 +15,9 @@ public class RecordDaoImpl implements RecordDao {
 
     @Autowired
     private SessionFactory sessionFactory;
+    
+    @Autowired
+    private TagDao tagDao;
 
     @Transactional
     public final void save(final Record record) {
@@ -53,5 +57,11 @@ public class RecordDaoImpl implements RecordDao {
     @Transactional
     public final Record get(final Long id) {
         return (Record) sessionFactory.getCurrentSession().get(Record.class, id);
+    }
+
+    @Transactional
+    public final void insert(final Record record) {
+        record.getTags().addAll(tagDao.getFromMessage(record.getMessage()));
+        save(record);
     }
 }

@@ -3,10 +3,12 @@ package com.epam.edu.kh.business.dao.tag;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.epam.edu.kh.business.entity.Tag;
 
 @Component("tagDaoImpl")
@@ -14,7 +16,7 @@ public class TagDaoImpl implements TagDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-
+    
     @Transactional
     public final void save(final Tag tag) {
         sessionFactory.getCurrentSession().save(tag);
@@ -61,9 +63,19 @@ public class TagDaoImpl implements TagDao {
         if (getByName(tagName) != null) {
             return getByName(tagName);
         } else {
-            Tag tag = new Tag(1, tagName);
+            Tag tag = new Tag(tagName);
             save(tag);
             return tag;
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Transactional(readOnly=true)
+    public List<Tag> getTopTags(Integer topTags) {
+        return sessionFactory
+                .getCurrentSession()
+                .createQuery(
+                        "select tag from Tag as tag join tag.records as tr group by tag.id order by count(tag.id) desc").setMaxResults(topTags)
+                .list();
     }
 }

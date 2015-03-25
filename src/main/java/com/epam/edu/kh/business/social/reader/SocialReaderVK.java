@@ -56,13 +56,11 @@ public class SocialReaderVK implements SocialReader {
                 Iterator<JsonNode> elementsOfResponse = rootNode.get("response").iterator();
                 JsonNode element = elementsOfResponse.next();
                 while (elementsOfResponse.hasNext()) {
-                    
+
                     element = elementsOfResponse.next();
-                    
-                    Long date;
                     String params[] = getParams(element);
-                    date = element.path("date").asLong();
-                    newRecords.add(new Record(1, params[0], params[1], "vk", params[2], params[3], params[4], params[5], date));
+                    Long date = element.path("date").asLong();
+                    newRecords.add(new Record(params[0], params[1], "vk", params[2], params[3], params[4], params[5], date));
                 }
             }
 
