@@ -16,7 +16,7 @@ public interface RecordDao {
 
     Record get(Long id);
 
-    List<Record> getTop(int count);
+    List<Record> getTopRecords(int count);
 
     void insert(Record record);
 }

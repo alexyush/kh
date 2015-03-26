@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -44,8 +43,7 @@ public class Record implements Serializable {
     @Column(name = "userPhotoUrl")
     private String userPhotoUrl;
 
-    @Column(name = "message")
-    @Lob
+    @Column(name = "message",columnDefinition = "TEXT")
     private String message;
 
     @Column(name = "recordPhotoUrl")

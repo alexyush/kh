@@ -1,17 +1,17 @@
 package com.epam.edu.kh.business.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList; 
+import java.util.List; 
 
 public class TagNames {
 
-    private Set<String> names = new HashSet<String>();
+    private List<String> names = new ArrayList<String>();
 
-    public final Set<String> getNames() {
+    public final List<String> getNames() {
         return this.names;
     }
 
-    public final void setNames(final Set<String> names) {
+    public final void setNames(final List<String> names) {
         this.names = names;
     }
 }

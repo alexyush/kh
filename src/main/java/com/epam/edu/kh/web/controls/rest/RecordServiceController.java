@@ -26,14 +26,15 @@ public class RecordServiceController {
     @RequestMapping(value = "/records/top", method = RequestMethod.GET)
     @ResponseBody
     public final List<Record> getTopRecords() {
-
         return recordService.getTopRecords();
     }
 
     @RequestMapping(value = "/records/tags", method = RequestMethod.POST)
     @ResponseBody
-    public final Set<Record> getRecordsByTagNames(@RequestBody final TagNames tagNames) {
-        
+    public final Set<Record> getRecordsByTagNames(@RequestBody final TagNames tagNames) { 
+        for(Record rec:recordService.getRecordsByTagNames(tagNames)) {
+            System.out.println(rec.getId()+" "+rec.getMessage());
+        }
         return recordService.getRecordsByTagNames(tagNames);
     }
 

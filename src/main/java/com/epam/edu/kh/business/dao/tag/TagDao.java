@@ -3,6 +3,7 @@ package com.epam.edu.kh.business.dao.tag;
 import java.util.List;
 import java.util.Set;
 
+import com.epam.edu.kh.business.entity.Record;
 import com.epam.edu.kh.business.entity.Tag;
 
 public interface TagDao {
@@ -14,9 +15,9 @@ public interface TagDao {
 
     Tag getByName(String tagName);
 
-    List<Tag> getAll();
-
     Set<Tag> getFromMessage(String recordMessage);
 
     List<Tag> getTopTags(Integer topTags);
+    
+    List<Record> getRecordsByTagNames(List<String> tagNames);
 }

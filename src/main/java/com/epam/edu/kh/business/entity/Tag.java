@@ -26,7 +26,7 @@ public class Tag implements Serializable {
     private String name;
 
     @JsonBackReference
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "tags")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
     private Set<Record> records = new HashSet<Record>();
 
     public Tag() {
