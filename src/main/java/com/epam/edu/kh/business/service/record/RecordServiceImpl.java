@@ -35,18 +35,12 @@ public class RecordServiceImpl implements RecordService {
 
     public final List<Record> getTopRecords() {
         List<Record> response = recordDao.getTop(Integer.parseInt(topRecords));
-        Collections.reverse(response);
         return response;
     }
 
     public final Long getDateOfLastInsertedRecord(String source) {
 
         return recordDao.getDateOfLastInsertedRecord(source);
-    }
-
-    public final List<Record> getAllRecords() {
-
-        return recordDao.getAll();
     }
 
     public final void deleteRecord(long id) {
@@ -75,7 +69,7 @@ public class RecordServiceImpl implements RecordService {
         return records;
     }
 
-    public final List<Tag> getTopTags() {  
+    public final List<Tag> getTopTags() {
         return tagDao.getTopTags(Integer.valueOf(topTags));
     }
 

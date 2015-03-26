@@ -27,18 +27,12 @@ public class RecordDaoImpl implements RecordDao {
     @Transactional
     @SuppressWarnings("unchecked")
     public final List<Record> getTop(final int count) {
-        return sessionFactory.getCurrentSession().createQuery("from Record").setMaxResults(count).list();
+        return sessionFactory.getCurrentSession().createQuery("select rec from Record as rec order by rec.id desc").setMaxResults(count).list();
     }
 
     @Transactional
     public final void delete(final Long id) {
         sessionFactory.getCurrentSession().createQuery("delete from Record u where u.id=:id").setParameter("id", id).executeUpdate();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Transactional
-    public final List<Record> getAll() {
-        return sessionFactory.getCurrentSession().createQuery("from Record").list();
     }
 
     @Transactional

@@ -124,7 +124,7 @@ public class SocialReaderVK implements SocialReader {
         String startTime;
         Long dateOfLastInsertedRecord = recordService.getDateOfLastInsertedRecord("vk");
         if (dateOfLastInsertedRecord != null) {
-            startTime = String.valueOf(dateOfLastInsertedRecord + 1);
+            startTime = String.valueOf(dateOfLastInsertedRecord + 2);
         } else {
             startTime = "";
         }

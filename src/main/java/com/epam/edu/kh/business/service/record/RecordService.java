@@ -21,8 +21,6 @@ public interface RecordService {
 
     List<Record> getTopRecords();
 
-    List<Record> getAllRecords();
-
     Set<Record> getRecordsByTagNames(TagNames tagsNames);
 
     void saveBatch(List<Record> newRecords); 

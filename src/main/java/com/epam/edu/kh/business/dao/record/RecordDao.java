@@ -18,7 +18,5 @@ public interface RecordDao {
 
     List<Record> getTop(int count);
 
-    List<Record> getAll();
-
     void insert(Record record);
 }
