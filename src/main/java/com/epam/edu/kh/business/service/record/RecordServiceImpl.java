@@ -1,141 +1,110 @@
 package com.epam.edu.kh.business.service.record;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.epam.edu.kh.business.dao.record.RecordDao;
-import com.epam.edu.kh.business.dao.tag.TagDao;
-import com.epam.edu.kh.business.entity.Record;
-import com.epam.edu.kh.business.entity.Tag;
+import com.epam.edu.kh.business.domain.Record;
+import com.epam.edu.kh.business.domain.Tag;
+import com.epam.edu.kh.business.domain.TagNames;
+import com.epam.edu.kh.business.repository.RecordRepository;
+import com.epam.edu.kh.business.repository.TagRepository;
+import com.google.common.collect.Lists;
 
 @Component("recordServiceImpl")
 public class RecordServiceImpl implements RecordService {
 
-    @Autowired
-    @Qualifier("recordDaoImpl")
-    private RecordDao recordDao;
+    @Value("${topTags}")
+    private String topTags;
+
+    @Value("${topRecords}")
+    private String topRecords;
 
     @Autowired
-    @Qualifier("tagDaoImpl")
-    private TagDao tagDao;
+    private RecordRepository recordRepo;
 
-    public RecordServiceImpl() {
+    @Autowired
+    private TagRepository tagRepo;
 
-    }
-
+    @Transactional(readOnly = true)
     public final List<Record> getTopRecords() {
-        List<Record> response = recordDao.getTopRecords(20);
-        return response;
+        Iterator<Record> IteratorOfRecords = recordRepo.getTopRecords(Integer.parseInt(topRecords)).iterator();
+        List<Record> listOfRecords = Lists.newArrayList(IteratorOfRecords);
+        Collections.reverse(listOfRecords);
+        return listOfRecords;
     }
 
-    public final void insertRecord(final Record record)
-            throws IllegalArgumentException, IOException {
-
-        record.setTags(addTagsToRecord(record.getTags(),
-                tagDao.getTagsFromMessage(record.getMessage())));
-        record.setMessage(cutString(160, record.getMessage()));
-        recordDao.saveRecord(record);
-
+    @Transactional(readOnly = true)
+    public final Long getDateOfLastInsertedRecord(String source) {
+        return recordRepo.getDateOfLastInsertedRecord(source);
     }
 
-    private String cutString(int i, String str) {
-        String newString;
-        if (i < str.length()) {
-            newString = str.substring(0, i);
-        } else {
-            return str;
+    @Transactional
+    public final void deleteRecord(Long id) {
+        recordRepo.delete(id);
+    }
+
+    @Transactional(readOnly = true)
+    public final Record getRecord(Long id) {
+        return recordRepo.findOne(id);
+    }
+
+    @Transactional
+    public void saveBatch(List<Record> newRecords) {
+        for (Record record : newRecords) {
+            insert(record);
         }
-        newString = newString.concat("...");
-        return newString;
     }
 
-    private Set<Tag> addTagsToRecord(Set<Tag> recordsTags, Set<Tag> tags) {
-
-        for (Tag tag : tags) {
-            recordsTags.add(tag);
-        }
-        return recordsTags;
+    @Transactional(readOnly = true)
+    public final List<Record> getRecordsByTagNames(TagNames tagNames) {
+        Iterator<Record> IteratorOfRecords = tagRepo.getRecordsByTagNames(tagNames.getNames()).iterator();
+        List<Record> listOfRecords = Lists.newArrayList(IteratorOfRecords);
+        return listOfRecords;
     }
 
-    public final Set<Record> getRecordsByTagsName(Names tagsNames) {
-
-        Set<Record> records = new HashSet<Record>();
-        for (String tagsName : tagsNames.getNames()) {
-            records.addAll(tagDao.getTagByName(tagsName).getRecords());
-        }
-
-        return records;
-    }
-
+    @Transactional(readOnly = true)
     public final List<Tag> getTopTags() {
+        Iterator<Tag> IteratorOfTags = tagRepo.getTopTags(Integer.parseInt(topTags)).iterator();
+        List<Tag> listOfTags = Lists.newArrayList(IteratorOfTags);
+        return listOfTags;
+    }
 
-        List<Tag> tags = tagDao.getAllTags();
-        qSort(tags, 0, tags.size() - 1);
-        Collections.reverse(tags);
-        if (tags.size() <= 20) {
-            return tags;
+    private void insert(final Record record) {
+        record.getTags().addAll(getFromMessage(record.getMessage()));
+        recordRepo.save(record);
+    }
+
+    private Set<Tag> getFromMessage(final String recordMessage) {
+
+        String messageOfRecord = recordMessage;
+        String[] hashTags = messageOfRecord.split(" ");
+        Set<String> uniqueHashTags = new HashSet<String>();
+
+        for (String tag : hashTags) {
+            if (tag.startsWith("#")) {
+                uniqueHashTags.add(tag.substring(1));
+            }
+        }
+        Set<Tag> tags = new HashSet<Tag>();
+        for (String tag : uniqueHashTags) {
+            tags.add(insert(tag));
+        }
+        return tags;
+    }
+    private Tag insert(final String tagName) {
+        if (tagRepo.findByTagName(tagName) != null) {
+            return tagRepo.findByTagName(tagName);
         } else {
-            return tags.subList(0, 20);
-        }
-
-    }
-
-    private void qSort(List<Tag> tags, int start, int end) {
-
-        if (tags.size() != 0) {
-            int i = start;
-            int j = end;
-            int x = tags.get((i + j) / 2).getRecords().size();
-            do {
-
-                while (tags.get(i).getRecords().size() < x) {
-                    ++i;
-                }
-                while (tags.get(j).getRecords().size() > x) {
-                    --j;
-                }
-                if (i <= j) {
-                    Tag temp = tags.get(i);
-                    tags.set(i, tags.get(j));
-                    tags.set(j, temp);
-                    i++;
-                    j--;
-                }
-            } while (i <= j);
-
-            if (start < j) {
-                qSort(tags, start, j);
-            }
-            if (i < end) {
-                qSort(tags, i, end);
-            }
+            Tag tag = new Tag(tagName);
+            tagRepo.save(tag);
+            return tag;
         }
     }
-
-    public final Long getLastDateOfCreate() {
-
-        return recordDao.getLastDateOfCreate();
-    }
-
-    public final List<Record> getAllRecords() {
-
-        return recordDao.getAllRecords();
-    }
-
-    public final void delete(long id) {
-
-        recordDao.delete(id);
-    }
-
-    public final void updateRecord(Record rec) {
-        recordDao.updateRecord(rec);
-    }
-
 }

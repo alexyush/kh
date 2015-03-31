@@ -1,29 +1,24 @@
 package com.epam.edu.kh.business.service.record;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Set;
+import com.epam.edu.kh.business.domain.Record;
+import com.epam.edu.kh.business.domain.Tag;
+import com.epam.edu.kh.business.domain.TagNames;
+ 
 
-import com.epam.edu.kh.business.entity.Record;
-import com.epam.edu.kh.business.entity.Tag;
-import com.fasterxml.jackson.core.JsonProcessingException;
+public interface RecordService { 
 
-public interface RecordService {
+    void deleteRecord(Long id);
 
-    List<Record> getTopRecords();
+    Long getDateOfLastInsertedRecord(String source);
 
-    void insertRecord(Record record) throws JsonProcessingException,
-            IOException;
-
-    Set<Record> getRecordsByTagsName(Names tagsNames);
+    Record getRecord(Long id);
 
     List<Tag> getTopTags();
 
-    Long getLastDateOfCreate();
+    List<Record> getTopRecords();
 
-    List<Record> getAllRecords();
+    List<Record> getRecordsByTagNames(TagNames tagsNames);
 
-    void delete(long id);
-
-    void updateRecord(Record rec);
+    void saveBatch(List<Record> newRecords); 
 }
