@@ -22,22 +22,13 @@ public class Tag implements Serializable {
     @Indexed(unique = true)
     private String name;
 
-<<<<<<< HEAD:src/main/java/com/epam/edu/kh/business/entity/Tag.java
-    @JsonBackReference
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
-=======
     @RelatedTo(type = "tagged",direction = Direction.BOTH) @JsonIgnore
->>>>>>> master:src/main/java/com/epam/edu/kh/business/domain/Tag.java
     private Set<Record> records = new HashSet<Record>();
 
     public Tag() {
     }
 
     public Tag(String value) {
-<<<<<<< HEAD:src/main/java/com/epam/edu/kh/business/entity/Tag.java
-        this.id = 1;
-=======
->>>>>>> master:src/main/java/com/epam/edu/kh/business/domain/Tag.java
         this.name = value;
     }
 
@@ -64,8 +55,4 @@ public class Tag implements Serializable {
     public final void setId(long id) {
         this.id = id;
     }
-<<<<<<< HEAD:src/main/java/com/epam/edu/kh/business/entity/Tag.java
-
-=======
->>>>>>> master:src/main/java/com/epam/edu/kh/business/domain/Tag.java
 }
