@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+
+import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.twitter.api.MediaEntity;
 import org.springframework.social.twitter.api.SearchResults;
@@ -14,8 +14,7 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.impl.TwitterTemplate;
 import org.springframework.stereotype.Component;
-
-import com.epam.edu.kh.business.entity.Record;
+import com.epam.edu.kh.business.domain.Record;
 import com.epam.edu.kh.business.service.record.RecordService;
 
 @Component
@@ -36,8 +35,8 @@ public class SocialReaderTwitter implements SocialReader {
     @Value("${accessTokenSecret}")
     private String accessTokenSecret;
 
+
     @Autowired
-    @Qualifier("recordServiceImpl")
     private RecordService recordService;
 
     private static final Logger log = LoggerFactory.getLogger(SocialReaderTwitter.class);
@@ -96,5 +95,4 @@ public class SocialReaderTwitter implements SocialReader {
         return new Record(userName, sourceUrl, "twitter", userProfileUrl, userPhotoUrl, tw.getText(), recordPhotoUrl, dateOfCreate);
 
     }
-
 }

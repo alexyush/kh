@@ -19,7 +19,11 @@ public class SocialScannerVkTest {
 
     @Before
     public final void getRecords() throws ClientProtocolException, IOException {
+<<<<<<< HEAD
         records = vk.getNewRecords();
+=======
+        records = vk.getNewRecordsByTag("ДобраеСэрца");
+>>>>>>> master
     }
 
     @Test

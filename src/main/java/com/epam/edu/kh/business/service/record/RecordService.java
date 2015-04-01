@@ -1,27 +1,24 @@
 package com.epam.edu.kh.business.service.record;
 
 import java.util.List;
-import java.util.Set;
-
-import com.epam.edu.kh.business.entity.Record;
-import com.epam.edu.kh.business.entity.Tag;
-import com.epam.edu.kh.business.entity.TagNames;
+import com.epam.edu.kh.business.domain.Record;
+import com.epam.edu.kh.business.domain.Tag;
+import com.epam.edu.kh.business.domain.TagNames;
 
 public interface RecordService { 
 
-    void deleteRecord(long id);
-
-    void updateRecord(Record record);
+    void deleteRecord(Long id);
 
     Long getDateOfLastInsertedRecord(String source);
 
     Record getRecord(Long id);
 
-    List<Tag> getTopTags();
+    Record getRecord(Long id);
 
     List<Record> getTopRecords();
 
-    Set<Record> getRecordsByTagNames(TagNames tagsNames);
+    List<Record> getRecordsByTagNames(TagNames tagsNames);
 
     void saveBatch(List<Record> newRecords); 
+
 }

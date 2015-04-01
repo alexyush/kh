@@ -1,9 +1,10 @@
-package com.epam.edu.kh.business.entity;
+package com.epam.edu.kh.business.domain;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+<<<<<<< HEAD:src/main/java/com/epam/edu/kh/business/entity/Record.java
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,18 +20,26 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "Record")
+=======
+import org.neo4j.graphdb.Direction;
+import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedTo; 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@NodeEntity
+>>>>>>> master:src/main/java/com/epam/edu/kh/business/domain/Record.java
 public class Record implements Serializable {
 
     private static final long serialVersionUID = -6191213098841148229L;
 
-    @Id
-    @GeneratedValue
-    @Column(name = "recordId")
-    private long id;
+    @GraphId
+    private Long id;
 
-    @Column(name = "userName")
     private String userName;
 
+<<<<<<< HEAD:src/main/java/com/epam/edu/kh/business/entity/Record.java
     @Column(name = "sourceUrl")
     private String sourceUrl;
 
@@ -38,29 +47,42 @@ public class Record implements Serializable {
     private String source;
 
     @Column(name = "userProfileUrl")
+=======
+    private String sourceUrl;
+
+    private String source;
+
+>>>>>>> master:src/main/java/com/epam/edu/kh/business/domain/Record.java
     private String userProfileUrl;
 
-    @Column(name = "userPhotoUrl")
     private String userPhotoUrl;
 
+<<<<<<< HEAD:src/main/java/com/epam/edu/kh/business/entity/Record.java
     @Column(name = "message",columnDefinition = "TEXT")
+=======
+>>>>>>> master:src/main/java/com/epam/edu/kh/business/domain/Record.java
     private String message;
 
-    @Column(name = "recordPhotoUrl")
     private String recordPhotoUrl;
 
-    @Column(name = "dateOfCreate")
     private Long dateOfCreate;
 
+<<<<<<< HEAD:src/main/java/com/epam/edu/kh/business/entity/Record.java
     @JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "tags_records", joinColumns = @JoinColumn(name = "record_Id"), inverseJoinColumns = @JoinColumn(name = "tag_Id"))
+=======
+    @RelatedTo(type = "tagged",direction = Direction.BOTH) @JsonIgnore
+>>>>>>> master:src/main/java/com/epam/edu/kh/business/domain/Record.java
     private Set<Tag> tags = new HashSet<Tag>();
 
     public Record(String userName, String sourceUrl, String source, String userProfileUrl, String userPhotoUrl, String message,
             String recordPhotoUrl, Long dateOfCreate) {
 
+<<<<<<< HEAD:src/main/java/com/epam/edu/kh/business/entity/Record.java
         this.id = 1;
+=======
+>>>>>>> master:src/main/java/com/epam/edu/kh/business/domain/Record.java
         this.userName = userName;
         this.sourceUrl = sourceUrl;
         this.source = source;

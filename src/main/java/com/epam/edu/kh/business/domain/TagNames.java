@@ -1,4 +1,4 @@
-package com.epam.edu.kh.business.entity;
+package com.epam.edu.kh.business.domain;
 
 import java.util.ArrayList; 
 import java.util.List; 

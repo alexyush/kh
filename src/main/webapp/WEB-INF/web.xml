@@ -12,12 +12,10 @@
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-
 		<param-value>
-	   /WEB-INF/kh-servlet.xml 
-	   /WEB-INF/app.xml 
+	   		/WEB-INF/kh-servlet.xml
+	   		/WEB-INF/appContext.xml
 	   </param-value>
-
 	</context-param>
 
 	<listener>
@@ -35,7 +33,4 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-	<session-config>
-		<session-timeout>5</session-timeout>
-	</session-config>
 </web-app>

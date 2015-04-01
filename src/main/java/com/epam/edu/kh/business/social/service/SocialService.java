@@ -23,6 +23,6 @@ public class SocialService {
 
     public final void searchForNewRecords() {
         recordService.saveBatch(socialReaderVk.getNewRecords());
-        recordService.saveBatch(socialReaderTw.getNewRecords()); 
+        recordService.saveBatch(socialReaderTw.getNewRecords());
     }
 }
