@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
-import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo; 
@@ -37,7 +36,6 @@ public class Record implements Serializable {
     private Long dateOfCreate;
 
     @RelatedTo(type = "tagged",direction = Direction.BOTH) @JsonIgnore
-    @Fetch
     private Set<Tag> tags = new HashSet<Tag>();
 
     public Record(String userName, String sourceUrl, String source, String userProfileUrl, String userPhotoUrl, String message,

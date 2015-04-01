@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com</groupId>
-	<artifactId>neo4</artifactId>
+	<artifactId>kh</artifactId>
 	<packaging>war</packaging>
 	<version>3.3.0.RELEASE</version>
 
@@ -10,7 +10,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>4.0.7.RELEASE</spring.version>
 		<spring-data-neo4j.version>${project.version}</spring-data-neo4j.version>
-		<neo4j.version>2.1.7</neo4j.version>
+		<neo4j.version>2.2.0</neo4j.version>
 	</properties>
 
 	<dependencies>
@@ -162,6 +162,10 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<finalName>kh</finalName>
+	</build>
 
 	<reporting>
 		<plugins>
