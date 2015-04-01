@@ -10,7 +10,7 @@ angular.module('testApp')
   .directive('tag', function ($rootScope) {
     return {
       template: '<div class="tag" ng-class="{selected: tag.selected===true}" ng-click="toggleTag(tag)">#{{tag.name}}</div>',
-      restrict: 'E',
+      restrict: 'E',       
       scope: {
       	tag: '=model'
       },

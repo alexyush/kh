@@ -1,61 +1,55 @@
-package com.epam.edu.kh.business.entity;
+package com.epam.edu.kh.business.domain;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-@Entity
-@Table(name = "Record")
+import org.neo4j.graphdb.Direction;
+import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedTo; 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@NodeEntity
 public class Record implements Serializable {
 
     private static final long serialVersionUID = -6191213098841148229L;
 
-    @Id
-    @GeneratedValue
-    @Column(name = "recordId")
-    private long id;
+    @GraphId
+    private Long id;
 
-    @Column(name = "userName")
     private String userName;
 
-    @Column(name = "sourceUrl", unique = true)
     private String sourceUrl;
 
-    @Column(name = "source")
     private String source;
 
-    @Column(name = "userProfileUrl")
     private String userProfileUrl;
 
-    @Column(name = "userPhotoUrl")
     private String userPhotoUrl;
 
-    @Column(name = "message")
     private String message;
 
-    @Column(name = "recordPhotoUrl")
     private String recordPhotoUrl;
 
-    @Column(name = "dateOfCreate")
     private Long dateOfCreate;
 
-    @JsonManagedReference
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "tags_records",
-    joinColumns = @JoinColumn(name = "record_Id"),
-    inverseJoinColumns = @JoinColumn(name = "tag_Id"))
+    @RelatedTo(type = "tagged",direction = Direction.BOTH) @JsonIgnore
     private Set<Tag> tags = new HashSet<Tag>();
+
+    public Record(String userName, String sourceUrl, String source, String userProfileUrl, String userPhotoUrl, String message,
+            String recordPhotoUrl, Long dateOfCreate) {
+
+        this.userName = userName;
+        this.sourceUrl = sourceUrl;
+        this.source = source;
+        this.userProfileUrl = userProfileUrl;
+        this.userPhotoUrl = userPhotoUrl;
+        this.message = message;
+        this.recordPhotoUrl = recordPhotoUrl;
+        this.dateOfCreate = dateOfCreate;
+    }
 
     public final Set<Tag> getTags() {
         return this.tags;
@@ -132,22 +126,9 @@ public class Record implements Serializable {
     public final void setSource(String source) {
         this.source = source;
     }
+
     public final String getSource() {
         return this.source;
-    }
-    public Record(long id, String userName, String sourceUrl, String source,
-            String userProfileUrl, String userPhotoUrl, String message,
-            String recordPhotoUrl, Long dateOfCreate) {
-
-        this.id = id;
-        this.userName = userName;
-        this.sourceUrl = sourceUrl;
-        this.source = source;
-        this.userProfileUrl = userProfileUrl;
-        this.userPhotoUrl = userPhotoUrl;
-        this.message = message;
-        this.recordPhotoUrl = recordPhotoUrl;
-        this.dateOfCreate = dateOfCreate;
     }
 
     @Override
@@ -156,16 +137,11 @@ public class Record implements Serializable {
         int result = 1;
         result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + ((message == null) ? 0 : message.hashCode());
-        result = prime * result
-                + ((recordPhotoUrl == null) ? 0 : recordPhotoUrl.hashCode());
-        result = prime * result
-                + ((sourceUrl == null) ? 0 : sourceUrl.hashCode());
-        result = prime * result
-                + ((userName == null) ? 0 : userName.hashCode());
-        result = prime * result
-                + ((userPhotoUrl == null) ? 0 : userPhotoUrl.hashCode());
-        result = prime * result
-                + ((userProfileUrl == null) ? 0 : userProfileUrl.hashCode());
+        result = prime * result + ((recordPhotoUrl == null) ? 0 : recordPhotoUrl.hashCode());
+        result = prime * result + ((sourceUrl == null) ? 0 : sourceUrl.hashCode());
+        result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+        result = prime * result + ((userPhotoUrl == null) ? 0 : userPhotoUrl.hashCode());
+        result = prime * result + ((userProfileUrl == null) ? 0 : userProfileUrl.hashCode());
         return result;
     }
 

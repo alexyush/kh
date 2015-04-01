@@ -10,15 +10,9 @@ public class ScheduledJob {
 
     @Autowired
     private SocialService socialService;
-
-    @Scheduled(fixedDelay = 50000)
+ 
+    @Scheduled(fixedDelay = 100000)
     public final void getNewRecords() {
         socialService.searchForNewRecords();
     }
-
-    @Scheduled(fixedDelay = 200000)
-    public final void updateRecords() {
-        socialService.updatesAllRecords();
-    }
-
 }
