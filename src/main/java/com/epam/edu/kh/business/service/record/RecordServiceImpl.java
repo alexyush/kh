@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -32,9 +33,8 @@ public class RecordServiceImpl implements RecordService {
     private TagRepository tagRepo;
 
     @Transactional(readOnly = true)
-    public final List<Record> getTopRecords() {
-        Iterator<Record> IteratorOfRecords = recordRepo.getTopRecords(Integer.parseInt(topRecords)).iterator();
-        List<Record> listOfRecords = Lists.newArrayList(IteratorOfRecords); 
+    public final List<Record> getTopRecords() { 
+        List<Record> listOfRecords = Lists.newArrayList(recordRepo.getTopRecords(Integer.parseInt(topRecords))); 
         return listOfRecords;
     }
 
@@ -62,15 +62,14 @@ public class RecordServiceImpl implements RecordService {
 
     @Transactional(readOnly = true)
     public final List<Record> getRecordsByTagNames(TagNames tagNames) {
-        Iterator<Record> IteratorOfRecords = tagRepo.getRecordsByTagNames(tagNames.getNames()).iterator();
-        List<Record> listOfRecords = Lists.newArrayList(IteratorOfRecords);
+        List<Record> listOfRecords = Lists.newArrayList(tagRepo.getRecordsByTagNames(tagNames.getNames()));
         return listOfRecords;
     }
 
     @Transactional(readOnly = true)
     public final List<Tag> getTopTags() {
-        Iterator<Tag> IteratorOfTags = tagRepo.getTopTags(Integer.parseInt(topTags)).iterator();
-        List<Tag> listOfTags = Lists.newArrayList(IteratorOfTags);
+
+        List<Tag> listOfTags = Lists.newArrayList(tagRepo.getTopTags(Integer.parseInt(topTags)));
         return listOfTags;
     }
 
