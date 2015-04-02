@@ -11,14 +11,12 @@ public interface RecordService {
 
     Long getDateOfLastInsertedRecord(String source);
 
-    Record getRecord(Long id);
-
-    Record getRecord(Long id);
-
     List<Record> getTopRecords();
 
     List<Record> getRecordsByTagNames(TagNames tagsNames);
 
     void saveBatch(List<Record> newRecords); 
+    
+    List<Tag> getTopTags();
 
 }

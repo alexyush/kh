@@ -6,7 +6,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.epam.edu.kh.business.entity.Record;
+import com.epam.edu.kh.business.domain.Record;
 import com.epam.edu.kh.business.social.reader.SocialReader;
 import com.epam.edu.kh.business.social.reader.SocialReaderVK;
 
@@ -19,11 +19,7 @@ public class SocialScannerVkTest {
 
     @Before
     public final void getRecords() throws ClientProtocolException, IOException {
-<<<<<<< HEAD
-        records = vk.getNewRecords();
-=======
-        records = vk.getNewRecordsByTag("ДобраеСэрца");
->>>>>>> master
+
     }
 
     @Test
