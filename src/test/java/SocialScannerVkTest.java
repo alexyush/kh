@@ -17,11 +17,6 @@ public class SocialScannerVkTest {
     SocialReader vk = new SocialReaderVK();
     List<Record> records;
 
-    @Before
-    public final void getRecords() throws ClientProtocolException, IOException {
-
-    }
-
     @Test
     public final void testValueDateOfCreateOfRecord() {
 

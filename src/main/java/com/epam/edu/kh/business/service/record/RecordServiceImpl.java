@@ -45,11 +45,6 @@ public class RecordServiceImpl implements RecordService {
         recordRepo.delete(id);
     }
 
-    @Transactional(readOnly = true)
-    public final Record getRecord(Long id) {
-        return recordRepo.findOne(id);
-    }
-
     @Transactional
     public void saveBatch(List<Record> newRecords) {
         for (Record record : newRecords) {
