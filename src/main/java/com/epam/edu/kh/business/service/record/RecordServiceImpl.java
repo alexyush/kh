@@ -48,7 +48,7 @@ public class RecordServiceImpl implements RecordService {
     @Transactional
     public void saveBatch(List<Record> newRecords) {
         for (Record record : newRecords) {
-            insert(record);
+            insertRecord(record);
         }
     }
 
@@ -64,7 +64,7 @@ public class RecordServiceImpl implements RecordService {
         return listOfTags;
     }
 
-    private void insert(final Record record) {
+    private void insertRecord(final Record record) {
         record.getTags().addAll(getFromMessage(record.getMessage()));
         recordRepo.save(record);
     }
@@ -82,12 +82,12 @@ public class RecordServiceImpl implements RecordService {
         }
         Set<Tag> tags = new HashSet<Tag>();
         for (String tag : uniqueHashTags) {
-            tags.add(insert(tag));
+            tags.add(insertTag(tag));
         }
         return tags;
     }
 
-    private Tag insert(final String tagName) {
+    private Tag insertTag(final String tagName) {
         if (tagRepo.findByTagName(tagName) != null) {
             return tagRepo.findByTagName(tagName);
         } else {

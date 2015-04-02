@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.http.client.ClientProtocolException;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.epam.edu.kh.business.domain.Record;
 import com.epam.edu.kh.business.social.reader.SocialReader;
@@ -13,8 +15,10 @@ import com.epam.edu.kh.business.social.reader.SocialReaderVK;
 import static org.junit.Assert.*;
 
 public class SocialScannerVkTest {
-
-    SocialReader vk = new SocialReaderVK();
+    
+    @Autowired
+    @Qualifier("socialReaderVk")
+    private SocialReader vk;
     List<Record> records;
 
     @Test
